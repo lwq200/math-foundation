@@ -10,6 +10,11 @@ import VizFigure from './components/VizFigure.vue'
 import LimitEpsilonDelta from './components/LimitEpsilonDelta.vue'
 import RiemannSum from './components/RiemannSum.vue'
 import GradientDescent from './components/GradientDescent.vue'
+// P1 交互组件（第二批）：正态分布 / ε-N 数列极限 / 点积投影 / PDF↔CDF（册06/册02/册04/册06）
+import NormalDistSlider from './components/NormalDistSlider.vue'
+import EpsNSequences from './components/EpsNSequences.vue'
+import DotProduct from './components/DotProduct.vue'
+import CDFExplorer from './components/CDFExplorer.vue'
 
 /**
  * 对话体段落分类：正文中对话段为 <p><strong>老谟/造物主</strong>："…"</p>。
@@ -39,6 +44,10 @@ const theme: Theme = {
     app.component('LimitEpsilonDelta', LimitEpsilonDelta)
     app.component('RiemannSum', RiemannSum)
     app.component('GradientDescent', GradientDescent)
+    app.component('NormalDistSlider', NormalDistSlider)
+    app.component('EpsNSequences', EpsNSequences)
+    app.component('DotProduct', DotProduct)
+    app.component('CDFExplorer', CDFExplorer)
     // 每次路由切换后（含首屏）重新分类，保证 SSR 直出的页面也有样式
     router.onAfterRouteChanged = () => {
       if (typeof requestAnimationFrame !== 'undefined') {
