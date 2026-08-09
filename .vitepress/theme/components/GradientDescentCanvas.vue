@@ -83,7 +83,8 @@ function stepN(n: number) {
 
 async function buildBoard() {
   if (!boardEl.value) return
-  JXG = (await import('jsxgraph')).JXG
+  const jsxg = await import('jsxgraph')
+  JXG = jsxg.default ?? jsxg.JXG
 
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-3, 3.2, 3, -3.2],

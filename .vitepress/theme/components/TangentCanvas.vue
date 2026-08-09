@@ -79,24 +79,22 @@ function redrawFunction() {
   })
 
   // 切线：过 (a, f(a))、斜率为 f'(a)
+  // 注意：JSXGraph 1.13 的 line 不支持 function 父对象（旧版 1.7 可容忍），
+  // 必须用坐标点数组；拖动时下方 setPosition 实时更新，与割线同机制。
   const slope = FNS[fnKey.value].d(a)
   board.removeObject(tanLine)
   if (Number.isFinite(slope)) {
     tanLine = board.create('line', [
-      (x: number) => a - 3,
-      (x: number) => fA(a) - 3 * slope,
-      (x: number) => a + 3,
-      (x: number) => fA(a) + 3 * slope,
+      [a - 3, fA(a) - 3 * slope],
+      [a + 3, fA(a) + 3 * slope],
     ], { strokeColor: '#e0663a', strokeWidth: 2, strokeDasharray: [4, 3], fixed: true })
   }
 
   // 割线：过 (a, f(a)) 与 (a+h, f(a+h))，随 h 滑杆移动逐步贴合切线
   board.removeObject(secLine)
   secLine = board.create('line', [
-    (x: number) => a,
-    (x: number) => fA(a),
-    (x: number) => a + h,
-    (x: number) => fA(a + h),
+    [a, fA(a)],
+    [a + h, fA(a + h)],
   ], { strokeColor: '#3d8b66', strokeWidth: 2, fixed: true })
 
   updateReadouts(a, h)
@@ -105,7 +103,9 @@ function redrawFunction() {
 async function buildBoard() {
   if (!boardEl.value) return
   // 动态加载 jsxgraph（仅浏览器，懒加载，不进首屏主包）
-  JXG = (await import('jsxgraph')).JXG
+  // jsxgraph 1.13+ ESM 为 default 导出，旧版为 .JXG 命名导出，兼容两种
+  const jsxg = await import('jsxgraph')
+  JXG = jsxg.default ?? jsxg.JXG
 
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-6, 8, 6, -8],

@@ -87,7 +87,8 @@ function refresh() {
 
 async function buildBoard() {
   if (!boardEl.value) return
-  JXG = (await import('jsxgraph')).JXG
+  const jsxg = await import('jsxgraph')
+  JXG = jsxg.default ?? jsxg.JXG
 
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-0.4, 5.2, 2.6, -0.6],

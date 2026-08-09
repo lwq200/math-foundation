@@ -71,7 +71,8 @@ function refresh() {
 
 async function buildBoard() {
   if (!boardEl.value) return
-  JXG = (await import('jsxgraph')).JXG
+  const jsxg = await import('jsxgraph')
+  JXG = jsxg.default ?? jsxg.JXG
 
   // bbox：x∈[−1.4, 5.4]，y∈[−1.5, 6.5]，让 ε 带(≈2~6)与 δ 带(≈0.5~3.5)都可见
   board = JXG.JSXGraph.initBoard(boardEl.value, {
