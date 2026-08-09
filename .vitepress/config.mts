@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { katex } from '@mdit/plugin-katex'
-import { MermaidPlugin } from 'vitepress-plugin-mermaid'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // 数学内容（集合记号 {∅,{∅}}、LaTeX 下标 w_{n−k} 等）含 {{ / }}
 // 会被 Vue 当作模板插值。此插件在 markdown 渲染完成后统一把
@@ -110,7 +110,10 @@ const books = [
   },
 ]
 
-export default defineConfig({
+// vitepress-plugin-mermaid：MermaidPlugin 实为 Vite 插件（不能 md.use），
+// 正确用法是用 withMermaid 包装整个配置：它会注入 MermaidMarkdown（markdown-it
+// fence 插件）、注册 Mermaid Vue 组件，并配置 mermaid 所需依赖别名。
+export default defineConfig(withMermaid({
   lang: 'zh-CN',
   title: '数学基础 · 创世游戏系列丛书基础卷',
   description: '《数学基础》· 创世游戏系列丛书基础卷：7 册苏格拉底对话体自学教材，从零推导、可复写证明、计算训练场 —— 造物主与老谟一问一答',
@@ -133,23 +136,31 @@ export default defineConfig({
       md.use(katex, {
         mathFence: true,
         output: 'html',
+        // 册03/册04 正文大量使用 \(...\) / \[...\] 内联与块级公式，
+        // 默认 delimiters='dollars' 只识别 $ / $$，必须启用 'all'
+        // 才能同时渲染括号式（brackets）与美元式（dollars）两种写法。
+        delimiters: 'all',
       })
-      md.use(MermaidPlugin)
       escapeVueBraces(md)
     },
   },
 
   themeConfig: {
-    logo: '/math-foundation/logo.svg',
+    logo: '/logo.svg',
     siteTitle: '数学基础系列',
     nav: [
       { text: '首页', link: '/' },
-      { text: '册01 · 逻辑与数', link: '/册01-逻辑与数/第01章-数' },
-      { text: '册02 · 实数极限与连续', link: '/册02-实数极限与连续/第01章-实数' },
-      { text: '册03 · 单变量微积分', link: '/册03-单变量微积分/第01章-导数' },
-      { text: '册04 · 线性代数', link: '/册04-线性代数/第01章-向量' },
-      { text: '册05 · 多元微积分与凸优化', link: '/册05-多元微积分与凸优化/第01章-多元函数与偏导' },
-      { text: '册06 · 概率统计与信息', link: '/册06-概率统计与信息/第01章-概率公理' },
+      {
+        text: '册次目录',
+        items: [
+          { text: '册01 · 逻辑与数', link: '/册01-逻辑与数/第01章-数' },
+          { text: '册02 · 实数极限与连续', link: '/册02-实数极限与连续/第01章-实数' },
+          { text: '册03 · 单变量微积分', link: '/册03-单变量微积分/第01章-导数' },
+          { text: '册04 · 线性代数', link: '/册04-线性代数/第01章-向量' },
+          { text: '册05 · 多元微积分与凸优化', link: '/册05-多元微积分与凸优化/第01章-多元函数与偏导' },
+          { text: '册06 · 概率统计与信息', link: '/册06-概率统计与信息/第01章-概率公理' },
+        ],
+      },
     ],
 
     sidebar: [
@@ -189,4 +200,4 @@ export default defineConfig({
       copyright: 'Copyright © 2026 · 开源教材（CC BY 4.0）',
     },
   },
-})
+}))

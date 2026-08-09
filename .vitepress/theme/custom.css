@@ -39,31 +39,103 @@
   margin: 0.9em 0;
 }
 
-/* ---- 加粗强调 ---- */
+/* ---- 加粗强调 ----
+   正文普通 strong 不强制品牌绿（避免处处见绿、稀释对比度），
+   仅对话姓名徽章等关键位置使用品牌色。 */
 .vp-doc strong {
-  color: var(--vp-c-brand-1);
   font-weight: 700;
 }
 
-/* ---- 对话体：老谟 / 造物主 ---- */
-.vp-doc p:has(> strong:first-child:last-child) {
-  background: var(--vp-c-bg-soft);
-  border-left: 4px solid var(--vp-c-brand-3);
-  border-radius: 6px;
-  padding: 0.6em 1em;
+/* ---- 对话体：老谟 / 造物主 ----
+   对话段落实际结构为 <p><strong>老谟</strong>："…"</p>，
+   strong 并非 p 的唯一子元素，故不能用 :last-child 匹配。
+   改用 p > strong:first-child 命中的选择器；并通过主题 JS
+   给段落追加 dialog-lao / dialog-maker 类实现两套视觉区分。 */
+.vp-doc p.dialog-lao,
+.vp-doc p.dialog-maker {
+  margin: 0.8em 0;
+  border-radius: 8px;
+  padding: 0.6em 1em 0.6em 1.1em;
+  border-left: 4px solid;
 }
 
-/* ---- 引用块（章首导航 / 知识锚点 / 便签）---- */
+/* 老谟：深色底 + 深绿左色条（毒舌导师） */
+.vp-doc p.dialog-lao {
+  background: rgba(47, 111, 79, 0.10);
+  border-left-color: var(--vp-c-brand-2);
+}
+.dark .vp-doc p.dialog-lao {
+  background: rgba(95, 208, 160, 0.12);
+  border-left-color: var(--vp-c-brand-3);
+}
+
+/* 造物主：浅色底 + 浅蓝左色条（学习者） */
+.vp-doc p.dialog-maker {
+  background: rgba(90, 140, 210, 0.10);
+  border-left-color: #6a8fd0;
+}
+.dark .vp-doc p.dialog-maker {
+  background: rgba(120, 160, 230, 0.14);
+  border-left-color: #8fb0e8;
+}
+
+/* 说话者姓名徽章 */
+.vp-doc p.dialog-lao > strong:first-child,
+.vp-doc p.dialog-maker > strong:first-child {
+  display: inline-block;
+  margin-right: 0.4em;
+  padding: 0.05em 0.5em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+.vp-doc p.dialog-lao > strong:first-child {
+  background: var(--vp-c-brand-2);
+}
+.vp-doc p.dialog-maker > strong:first-child {
+  background: #5b7fd0;
+}
+
+/* 兜底：即便 JS 未给段落加类，也保证对话段首词与正文区分 */
+.vp-doc p > strong:first-child {
+  color: var(--vp-c-brand-1);
+}
+
+/* ---- 中英混排间距：给中文字符与数字/拉丁字母之间留呼吸感 ---- */
+.vp-doc p,
+.vp-doc li,
+.vp-doc td,
+.vp-doc th {
+  text-align: justify;
+}
+/* 对段落/列表内的 KaTeX 行内公式、内联代码适度加边距，避免与中文挤压 */
+.vp-doc p .katex,
+.vp-doc li .katex {
+  margin: 0 0.12em;
+}
+.vp-doc p code,
+.vp-doc li code {
+  margin: 0 0.1em;
+}
+
+/* ---- 引用块（章首导航 / 知识锚点 / 便签）----
+   知识锚点用卡片 + 描边样式，与对话（左色条）、正文明显区分 */
 .vp-doc blockquote {
   border-left: 4px solid var(--vp-c-brand-3);
+  border: 1px solid var(--vp-c-divider);
+  border-left-width: 4px;
   background: var(--vp-c-bg-soft);
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px;
   padding: 0.8em 1.2em;
   margin: 1em 0;
 }
 
 .vp-doc blockquote blockquote {
   background: transparent;
+  border: none;
+  border-left: 4px solid var(--vp-c-divider);
+  margin-left: 0.5em;
 }
 
 /* ---- 表格 ---- */
@@ -75,9 +147,16 @@
 }
 
 .vp-doc th {
-  background: var(--vp-c-bg-soft);
+  background: var(--vp-c-brand-soft);
   font-weight: 600;
 }
+
+/* ---- 深色模式公式可读性修复 ----
+   katex.min.css 对 .katex .base 硬编码 color:#000，
+   深色模式下公式对比度骤降，强制改用主题文字色 */
+.dark .katex { color: inherit; }
+.dark .katex .base { color: var(--vp-c-text-1); }
+.dark .katex .katex-html > .newline { color: var(--vp-c-text-1); }
 
 /* ---- 代码块 ---- */
 .vp-doc div[class*="language-"] {
@@ -129,6 +208,37 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* hero 图标/徽标不因 base 而变形 */
+.VPHero .image-container img {
+  max-height: 180px;
+}
+
+/* hero 行动按钮间距 */
+.VPHero .actions {
+  margin-top: 1.2em;
+}
+
+/* ---- 首页 features 卡片 ---- */
+.VPFeatures .VPFeature {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.VPFeatures .VPFeature:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border-color: var(--vp-c-brand-3);
+}
+.VPFeatures .VPFeature .icon {
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ---- 底部 footer ---- */
 .VPFooter {
   border-top: 1px solid var(--vp-c-divider);
@@ -137,4 +247,42 @@
 /* ---- 阅读宽度略放宽 ---- */
 .VPDoc .content-container {
   max-width: 880px;
+}
+
+/* ---- 导航：中等宽度避免拥挤折行 ---- */
+@media (min-width: 960px) and (max-width: 1280px) {
+  .VPNavBar .title {
+    font-size: 15px;
+  }
+  .VPNavBarMenu .link,
+  .VPNavBarMenu .text {
+    font-size: 13px;
+  }
+  .VPNavBarMenuLink,
+  .VPNavBarMenu .menu {
+    padding: 0 8px;
+  }
+}
+
+/* ---- 表格单元格内边距与换行 ---- */
+.vp-doc td,
+.vp-doc th {
+  padding: 0.5em 0.8em;
+  line-height: 1.6;
+  vertical-align: top;
+}
+.vp-doc table tr {
+  border-top: 1px solid var(--vp-c-divider);
+}
+.vp-doc table tr:first-child {
+  border-top: none;
+}
+
+/* ---- 代码块增强 ---- */
+.vp-doc div[class*="language-"] {
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+.dark .vp-doc div[class*="language-"] {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
