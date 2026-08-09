@@ -29,7 +29,6 @@
 ## 如何创作与延续本系列
 
 - **创作规范（skill）**：[socratic-book-coauthor](https://github.com/lwq200/creation-game/tree/main/skills/socratic-book-coauthor) —— 人物设定、章节铁律、质量清单
-- **系列样书**：[creation-game/book](https://github.com/lwq200/creation-game/tree/main/book) —— 早期样书（已拆分为本系列，供溯源参考）
 - **创世游戏主仓库**：[lwq200/creation-game](https://github.com/lwq200/creation-game)
 
 ## 本地开发
