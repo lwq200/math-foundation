@@ -6,12 +6,12 @@ hero:
   text: "创世游戏系列 · 基础卷"
   tagline: "7 册 · 47 章 · 每一块地基都亲手推导一遍<br>造物主（你）⇄ 老谟（毒舌导师）—— 知识是推导出来的，不是背出来的"
   image:
-    src: /math-foundation/logo.svg
+    src: /logo.svg
     alt: 数学基础系列
   actions:
     - theme: brand
       text: 📖 从第 1 册开始读
-      link: /math-foundation/册01-逻辑与数/第01章-数
+      link: /册01-逻辑与数/第01章-数
 
 features:
   - icon: 🔄
