@@ -1,0 +1,140 @@
+/* ============ 数学基础系列 · 自定义主题样式 ============ */
+
+/* ---- 字体：中文优先 ---- */
+:root {
+  --vp-font-family-base: "PingFang SC", "Microsoft YaHei", "Noto Sans SC",
+    "Source Han Sans SC", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --vp-font-family-mono: "JetBrains Mono", "Cascadia Code", "Sarasa Mono SC",
+    "Source Code Pro", Consolas, "Courier New", monospace;
+  --vp-c-brand-1: #2f6f4f;
+  --vp-c-brand-2: #3d8b66;
+  --vp-c-brand-3: #42b883;
+  --vp-c-brand-soft: rgba(66, 184, 131, 0.16);
+}
+
+.dark {
+  --vp-c-brand-1: #5fd0a0;
+  --vp-c-brand-2: #42b883;
+  --vp-c-brand-3: #2f8f63;
+}
+
+/* ---- 正文排版 ---- */
+.vp-doc {
+  font-size: 16.5px;
+  line-height: 1.9;
+}
+
+.vp-doc h1 {
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+}
+
+.vp-doc h2 {
+  border-top: none;
+  margin-top: 2.2em;
+  padding-top: 0.6em;
+}
+
+.vp-doc p {
+  margin: 0.9em 0;
+}
+
+/* ---- 加粗强调 ---- */
+.vp-doc strong {
+  color: var(--vp-c-brand-1);
+  font-weight: 700;
+}
+
+/* ---- 对话体：老谟 / 造物主 ---- */
+.vp-doc p:has(> strong:first-child:last-child) {
+  background: var(--vp-c-bg-soft);
+  border-left: 4px solid var(--vp-c-brand-3);
+  border-radius: 6px;
+  padding: 0.6em 1em;
+}
+
+/* ---- 引用块（章首导航 / 知识锚点 / 便签）---- */
+.vp-doc blockquote {
+  border-left: 4px solid var(--vp-c-brand-3);
+  background: var(--vp-c-bg-soft);
+  border-radius: 0 8px 8px 0;
+  padding: 0.8em 1.2em;
+  margin: 1em 0;
+}
+
+.vp-doc blockquote blockquote {
+  background: transparent;
+}
+
+/* ---- 表格 ---- */
+.vp-doc table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+
+.vp-doc th {
+  background: var(--vp-c-bg-soft);
+  font-weight: 600;
+}
+
+/* ---- 代码块 ---- */
+.vp-doc div[class*="language-"] {
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* ---- 行内代码 ---- */
+.vp-doc code {
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+
+/* ---- Mermaid 图居中 ---- */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.2em 0;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- 数学公式 ---- */
+.katex-display {
+  margin: 1.2em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.4em 0;
+}
+
+.vp-doc .katex {
+  font-size: 1.08em;
+}
+
+/* ---- 首页 hero ---- */
+.VPHero .name,
+.VPHero .text {
+  max-width: 100%;
+}
+
+.VPHero .text {
+  background: linear-gradient(120deg, var(--vp-c-brand-3), #2f6f4f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- 底部 footer ---- */
+.VPFooter {
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+/* ---- 阅读宽度略放宽 ---- */
+.VPDoc .content-container {
+  max-width: 880px;
+}
