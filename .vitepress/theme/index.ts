@@ -2,6 +2,14 @@ import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import 'katex/dist/katex.min.css'
 import './custom.css'
+// 交互组件（JSXGraph）：包装器统一在此注册，画布由 defineClientComponent 懒加载。
+import TangentExplorer from './components/TangentExplorer.vue'
+// 部署集成师的通用交互画布包装器（defineClientComponent 懒加载，SSR 安全）
+import VizFigure from './components/VizFigure.vue'
+// P1 交互组件：ε-δ 极限带 / 黎曼和逼近 / 梯度下降路径（册02/册03/册05）
+import LimitEpsilonDelta from './components/LimitEpsilonDelta.vue'
+import RiemannSum from './components/RiemannSum.vue'
+import GradientDescent from './components/GradientDescent.vue'
 
 /**
  * 对话体段落分类：正文中对话段为 <p><strong>老谟/造物主</strong>："…"</p>。
@@ -23,7 +31,14 @@ function classifyDialog() {
 
 const theme: Theme = {
   extends: DefaultTheme,
-  enhanceApp({ router }) {
+  enhanceApp({ app, router }) {
+    // 全局注册交互组件包装器：任意章节 md 直接 <TangentExplorer /> / <VizFigure />
+    // 即可用，无需逐文件 import。按需轻量，后续组件统一在此集中注册包装器。
+    app.component('TangentExplorer', TangentExplorer)
+    app.component('VizFigure', VizFigure)
+    app.component('LimitEpsilonDelta', LimitEpsilonDelta)
+    app.component('RiemannSum', RiemannSum)
+    app.component('GradientDescent', GradientDescent)
     // 每次路由切换后（含首屏）重新分类，保证 SSR 直出的页面也有样式
     router.onAfterRouteChanged = () => {
       if (typeof requestAnimationFrame !== 'undefined') {

@@ -28,8 +28,11 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: 安装依赖
         run: npm ci
-      - name: 构建站点
-        run: npm run build
+      - name: 构建站点（含图片优化）
+        # build:all = node scripts/img-opt.mjs && vitepress build
+        # 先优化 SVG/生成 PNG fallback 到 .vitepress/public/assets/viz/，
+        # VitePress 构建时把 public/ 原样拷贝进 dist/ 并加 base 前缀。
+        run: npm run build:all
       - name: 配置 Pages
         uses: actions/configure-pages@v5
       - name: 上传产物
@@ -39,3 +42,37 @@ jobs:
       - name: 部署
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # 视觉回归检查：审计脚本（scripts/vrt/run.mjs）自行探活/拉起 vitepress preview
+  #（端口 4173），用 Playwright 截图与基线 pixelmatch 比对 + axe WCAG A/AA 扫描。
+  # 非阻断：整个 job 是信息性的，任何环节失败都不影响部署（allow-failure）。
+  visual-regression:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: 缓存 Playwright 浏览器
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+      - name: 安装依赖
+        run: npm ci
+      - name: 构建站点（含图片优化）
+        run: npm run build:all
+      - name: 安装 Playwright chromium（含系统依赖）
+        run: npx playwright install --with-deps chromium
+      - name: 运行视觉回归 + 无障碍审计（非阻断）
+        # 审计脚本自拉 preview、自行降级；差异/违规时 exitCode=1，
+        # continue-on-error 兜底，不影响部署。基线未提交时仅生成当前截图。
+        run: npm run test:vrt --if-present
+        continue-on-error: true

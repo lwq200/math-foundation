@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="560" viewBox="0 0 640 560" role="img" aria-label="导数为切线斜率的示意：曲线 f(x)=x² 上割线随 Δx→0 逼近切线，斜率即导数">
+  <defs>
+    <style>
+      :root {
+        --mf-ink: #2b302e;
+        --mf-muted: #4a554f;
+        --mf-primary: #2f6f4f;
+        --mf-amber: #c9a227;
+      }
+      /* 跟随系统深色模式自适应；页面文字统一用 var(--vp-c-*) 时也可由外层覆盖 */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --mf-ink: #e6e9e7;
+          --mf-muted: #b8c0bb;
+          --mf-primary: #7fbf9f;
+          --mf-amber: #e0bd4a;
+        }
+      }
+      .axis { stroke: var(--mf-ink); stroke-width: 1.2; fill: none; }
+      .curve { stroke: var(--mf-primary); stroke-width: 2.2; fill: none; stroke-linecap: round; }
+      .tangent { stroke: var(--mf-primary); stroke-width: 2.2; fill: none; }
+      .secant { stroke: var(--mf-amber); stroke-width: 1.8; stroke-dasharray: 7 5; fill: none; }
+      .dashed { stroke: var(--mf-muted); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+      .point { fill: var(--mf-primary); stroke: #ffffff; stroke-width: 1.5; }
+      .point-accent { fill: var(--mf-amber); stroke: #ffffff; stroke-width: 1.5; }
+      .arrow { stroke: var(--mf-amber); stroke-width: 2; fill: none; }
+      .tick { stroke: var(--mf-ink); stroke-width: 1.2; }
+      .label { font-family: 'PingFang SC','Microsoft YaHei','Noto Sans SC','Segoe UI',system-ui,sans-serif; font-size: 13px; fill: var(--mf-ink); }
+      .label-sm { font-family: 'PingFang SC','Microsoft YaHei','Noto Sans SC','Segoe UI',system-ui,sans-serif; font-size: 12px; fill: var(--mf-muted); }
+      .label-accent { font-family: 'PingFang SC','Microsoft YaHei','Noto Sans SC','Segoe UI',system-ui,sans-serif; font-size: 12px; fill: var(--mf-amber); }
+      .title { font-family: 'PingFang SC','Microsoft YaHei','Noto Sans SC','Segoe UI',system-ui,sans-serif; font-size: 16px; fill: var(--mf-ink); font-weight: 600; }
+    </style>
+  </defs>
+
+  <text x="320" y="30" text-anchor="middle" class="title">导数是切线斜率：割线斜率 Δy/Δx 在 Δx→0 时收敛到 f&#39;(x)</text>
+
+  <!-- 绘图区域：x∈[0,3]→px 80..590；y∈[0,10]→py 480..60 -->
+
+  <!-- 坐标轴 -->
+  <line x1="80" y1="480" x2="590" y2="480" class="axis"/>
+  <line x1="80" y1="480" x2="80" y2="60"  class="axis"/>
+  <polygon points="586,480 595,480 588,473" fill="var(--mf-ink)"/>
+  <polygon points="80,65 80,56 87,63" fill="var(--mf-ink)"/>
+  <text x="592" y="498" class="label" text-anchor="middle">x</text>
+  <text x="60"  y="60"  class="label" text-anchor="middle">y</text>
+  <text x="80"  y="498" class="label-sm" text-anchor="middle">O</text>
+
+  <!-- 割线：P(x,f(x))→Q(x+Δx,f(x+Δx))，随 Δx 变小逐步靠拢切线 -->
+  <line x1="140" y1="525" x2="570" y2="185" class="secant"/>
+
+  <!-- 切线：过 P(1,1) 斜率 2（极限位置） -->
+  <line x1="150" y1="487.4" x2="500" y2="314.5" class="tangent"/>
+
+  <!-- 抛物线 f(x)=x² 采样点 -->
+  <polyline class="curve"
+    points="80,480.0
+            105.5,479.05
+            131,476.22
+            156.5,471.5
+            182,464.9
+            207.5,456.4
+            233,446.0
+            258.5,433.7
+            284,419.5
+            309.5,403.4
+            335,385.5
+            360.5,365.7
+            386,343.9
+            411.5,320.3
+            437,294.8
+            462.5,267.4
+            488,238.1
+            513.5,206.9
+            539,173.8
+            564.5,138.9
+            590,102.0"
+    />
+
+  <!-- 从 Q 到 x 轴的虚线 -->
+  <line x1="454" y1="276.7" x2="454" y2="480" class="dashed"/>
+  <!-- 从 P 到 x 轴的虚线 -->
+  <line x1="250" y1="438" x2="250" y2="480" class="dashed"/>
+
+  <!-- 点 P 与 Q -->
+  <circle cx="250" cy="438" r="5" class="point"/>
+  <circle cx="454" cy="276.7" r="5" class="point-accent"/>
+
+  <!-- Δx 箭头（x 轴下方，x=1 → x=2.2） -->
+  <line x1="250" y1="494" x2="448" y2="494" class="arrow"/>
+  <polygon points="454,494 444,489 444,499" fill="var(--mf-amber)"/>
+  <text x="352" y="510" text-anchor="middle" class="label-accent">Δx</text>
+
+  <!-- Δy 箭头（x=2.2 处，y=f(x)=1 → y=f(x+Δx)） -->
+  <line x1="468" y1="438" x2="468" y2="282" class="arrow"/>
+  <polygon points="468,276.7 463,287 473,287" fill="var(--mf-amber)"/>
+  <text x="484" y="360" text-anchor="start" class="label-accent">Δy = f(x+Δx) − f(x)</text>
+
+  <!-- x 轴刻度 -->
+  <line x1="250" y1="480" x2="250" y2="489" class="tick"/>
+  <line x1="454" y1="480" x2="454" y2="489" class="tick"/>
+  <text x="250" y="505" text-anchor="middle" class="label-sm">x</text>
+  <text x="454" y="505" text-anchor="middle" class="label-sm">x+Δx</text>
+
+  <!-- 标注 -->
+  <text x="262" y="432" class="label" text-anchor="start">P (x, f(x))</text>
+  <text x="462" y="300" class="label-accent" text-anchor="start">Q (x+Δx, f(x+Δx))</text>
+  <text x="270" y="520" class="label-sm" text-anchor="start">割线斜率 = Δy / Δx</text>
+  <text x="170" y="150" class="label-sm" text-anchor="start">f(x)=x²</text>
+
+  <!-- 极限过程标注 -->
+  <text x="250" y="230" class="label-accent" text-anchor="middle">Δx→0</text>
+  <path d="M 236,240 C 252,268 300,292 358,300" class="arrow" stroke-width="1.6"/>
+  <polygon points="364,300 354,298 358,307" fill="var(--mf-amber)"/>
+  <text x="120" y="250" class="label-sm" text-anchor="middle">切线斜率 f&#39;(x)</text>
+  <text x="120" y="266" class="label-sm" text-anchor="middle">（割线的极限位置）</text>
+</svg>

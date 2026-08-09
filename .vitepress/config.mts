@@ -113,7 +113,30 @@ const books = [
 // vitepress-plugin-mermaid：MermaidPlugin 实为 Vite 插件（不能 md.use），
 // 正确用法是用 withMermaid 包装整个配置：它会注入 MermaidMarkdown（markdown-it
 // fence 插件）、注册 Mermaid Vue 组件，并配置 mermaid 所需依赖别名。
+//
+// mermaid 主题：theme:'base' + themeVariables，走学术绿/暖金/赤褐配色，
+// 与全站视觉统一（美学评审）。深色适配通过「CSS 变量引用」实现——
+// primaryTextColor / lineColor 引用自定义 CSS 变量（见 custom.css 的
+// --mf-mermaid-text / --mf-mermaid-line），Mermaid 11 会把 var(...) 原样写入
+// SVG 属性，随 html.dark 切换自动变化，无需重渲染。
 export default defineConfig(withMermaid({
+  mermaid: {
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#2f6f4f33',
+      primaryBorderColor: '#2f6f4f',
+      primaryTextColor: 'var(--mf-mermaid-text)',
+      lineColor: 'var(--mf-mermaid-line)',
+      secondaryColor: '#c9a22722',
+      secondaryBorderColor: '#c9a227',
+      tertiaryColor: '#b3382c22',
+      tertiaryBorderColor: '#b3382c',
+      nodeBorderRadius: '8px',
+      fontFamily: "'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif",
+      fontSize: '14px',
+    },
+  },
+
   lang: 'zh-CN',
   title: '数学基础 · 创世游戏系列丛书基础卷',
   description: '《数学基础》· 创世游戏系列丛书基础卷：7 册苏格拉底对话体自学教材，从零推导、可复写证明、计算训练场 —— 造物主与老谟一问一答',

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="560" viewBox="0 0 640 560" role="img" aria-label="ε-δ 极限的几何示意：抛物线 f(x)=x² 在 x=a 处的极限，ε 带与 δ 带">
+  <defs>
+    <style>
+      :root {
+        --mf-ink: #2b302e;
+        --mf-muted: #4a554f;
+        --mf-primary: #2f6f4f;
+        --mf-amber: #c9a227;
+        --mf-grid: #2f6f4f;
+      }
+      /* 跟随系统深色模式自适应；页面文字统一用 var(--vp-c-*) 时也可由外层覆盖 */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --mf-ink: #e6e9e7;
+          --mf-muted: #b8c0bb;
+          --mf-primary: #7fbf9f;
+          --mf-amber: #e0bd4a;
+          --mf-grid: #7fbf9f;
+        }
+      }
+      .axis { stroke: var(--mf-ink); stroke-width: 1.2; fill: none; }
+      .gridband { fill: var(--mf-grid); opacity: 0.10; }
+      .gridband2 { fill: var(--mf-grid); opacity: 0.06; }
+      .curve { stroke: var(--mf-primary); stroke-width: 2.2; fill: none; stroke-linecap: round; }
+      .dashed { stroke: var(--mf-muted); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+      .point { fill: var(--mf-primary); stroke: #ffffff; stroke-width: 1.5; }
+      .tick { stroke: var(--mf-ink); stroke-width: 1.2; }
+      .label { font-family: 'PingFang SC','Microsoft YaHei','Noto Sans SC','Segoe UI',system-ui,sans-serif; font-size: 13px; fill: var(--mf-ink); }
+      .label-sm { font-family: 'PingFang SC','Microsoft YaHei','Noto Sans SC','Segoe UI',system-ui,sans-serif; font-size: 12px; fill: var(--mf-muted); }
+      .title { font-family: 'PingFang SC','Microsoft YaHei','Noto Sans SC','Segoe UI',system-ui,sans-serif; font-size: 16px; fill: var(--mf-ink); font-weight: 600; }
+    </style>
+  </defs>
+
+  <text x="320" y="30" text-anchor="middle" class="title">函数极限的 ε-δ 几何：对任意 ε 带，找到 δ 带使曲线落在其内</text>
+
+  <!-- 绘图区域：x∈[0,4.4] → px 70..590；y∈[0,19] → py 480..50 -->
+  <!-- ε 带（水平，关于 f(a)=4，y∈[1.75,6.25]） -->
+  <rect x="70" y="338.6" width="520" height="101.9" class="gridband2"/>
+  <!-- δ 带（垂直，x∈[1.5,2.5]） -->
+  <rect x="247.3" y="50" width="118.2" height="430" class="gridband2"/>
+  <!-- 中心交点高亮 -->
+  <rect x="247.3" y="338.6" width="118.2" height="101.9" class="gridband"/>
+
+  <!-- 坐标轴 -->
+  <line x1="70" y1="480" x2="590" y2="480" class="axis"/>   <!-- x 轴 -->
+  <line x1="70" y1="480" x2="70" y2="50"  class="axis"/>   <!-- y 轴 -->
+  <polygon points="586,480 595,480 588,473" fill="var(--mf-ink)"/>  <!-- x 箭头 -->
+  <polygon points="70,55 70,46 77,53" fill="var(--mf-ink)"/>        <!-- y 箭头 -->
+  <text x="592" y="498" class="label" text-anchor="middle">x</text>
+  <text x="52"  y="56"  class="label" text-anchor="middle">y</text>
+  <text x="70"  y="498" class="label-sm" text-anchor="middle">O</text>
+
+  <!-- 抛物线 f(x)=x² 采样点 (px,py) -->
+  <polyline class="curve"
+    points="70,480.0
+            79.9,478.1
+            89.8,476.2
+            109.6,472.2
+            129.4,468.0
+            149.2,463.4
+            168.9,458.4
+            188.7,452.8
+            208.5,446.6
+            228.3,439.8
+            247.3,432.2
+            267.1,423.7
+            286.8,414.2
+            306.4,403.4
+            326.2,390.7
+            346.0,376.6
+            365.5,360.6
+            385.3,342.0
+            405.1,321.1
+            424.9,297.4
+            444.7,270.7
+            464.5,240.7
+            484.2,207.0
+            504.0,169.5
+            523.8,128.0
+            543.6,82.3
+            563.4,32.1"
+    />
+
+  <!-- 从 P=(a,f(a)) 到两轴的虚线 -->
+  <line x1="306.4" y1="389.5" x2="306.4" y2="480" class="dashed"/>
+  <line x1="306.4" y1="389.5" x2="70"    y2="389.5" class="dashed"/>
+
+  <!-- 点 P -->
+  <circle cx="306.4" cy="389.5" r="5" class="point"/>
+
+  <!-- x 轴刻度 -->
+  <line x1="247.3" y1="480" x2="247.3" y2="489" class="tick"/>
+  <line x1="306.4" y1="480" x2="306.4" y2="489" class="tick"/>
+  <line x1="365.5" y1="480" x2="365.5" y2="489" class="tick"/>
+  <text x="247.3" y="505" class="label-sm" text-anchor="middle">a−δ</text>
+  <text x="306.4" y="505" class="label-sm" text-anchor="middle">a</text>
+  <text x="365.5" y="505" class="label-sm" text-anchor="middle">a+δ</text>
+
+  <!-- y 轴刻度 -->
+  <line x1="60" y1="440.4" x2="70" y2="440.4" class="tick"/>
+  <line x1="60" y1="389.5" x2="70" y2="389.5" class="tick"/>
+  <line x1="60" y1="338.6" x2="70" y2="338.6" class="tick"/>
+  <text x="56" y="444" class="label-sm" text-anchor="end">f(a)−ε</text>
+  <text x="56" y="393" class="label-sm" text-anchor="end">f(a)</text>
+  <text x="56" y="342" class="label-sm" text-anchor="end">f(a)+ε</text>
+
+  <!-- 标注 -->
+  <text x="318" y="382" class="label" text-anchor="start">(a, f(a))</text>
+  <text x="392" y="416" class="label-sm" text-anchor="start">纵带：|x−a|&lt;δ</text>
+  <text x="392" y="432" class="label-sm" text-anchor="start">横带：|f(x)−f(a)|&lt;ε</text>
+  <text x="96" y="166" class="label-sm" text-anchor="start">f(x)=x²</text>
+
+  <!-- ε 与 δ 竖向标注 -->
+  <text x="412" y="370" class="label-sm" text-anchor="start">ε 带宽度</text>
+  <text x="258" y="322" class="label-sm" text-anchor="start">δ</text>
+  <text x="352" y="322" class="label-sm" text-anchor="start">δ</text>
+</svg>

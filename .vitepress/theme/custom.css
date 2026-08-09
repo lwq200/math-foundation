@@ -10,12 +10,17 @@
   --vp-c-brand-2: #3d8b66;
   --vp-c-brand-3: #42b883;
   --vp-c-brand-soft: rgba(66, 184, 131, 0.16);
+  /* Mermaid 深色适配：themeVariables 引用这些变量，随 .dark 切换自动变色 */
+  --mf-mermaid-text: #2b302e;
+  --mf-mermaid-line: #2f6f4f;
 }
 
 .dark {
   --vp-c-brand-1: #5fd0a0;
   --vp-c-brand-2: #42b883;
   --vp-c-brand-3: #2f8f63;
+  --mf-mermaid-text: #e8ecea;
+  --mf-mermaid-line: #5fd0a0;
 }
 
 /* ---- 正文排版 ---- */
@@ -91,10 +96,12 @@
   color: #fff;
 }
 .vp-doc p.dialog-lao > strong:first-child {
-  background: var(--vp-c-brand-2);
+  /* 白字 #fff on #2f6f4f = 6.0:1（≥AA 4.5:1） */
+  background: #2f6f4f;
 }
 .vp-doc p.dialog-maker > strong:first-child {
-  background: #5b7fd0;
+  /* 白字 #fff on #4460a8 = 6.0:1（≥AA 4.5:1） */
+  background: #4460a8;
 }
 
 /* 兜底：即便 JS 未给段落加类，也保证对话段首词与正文区分 */
@@ -202,10 +209,18 @@
 }
 
 .VPHero .text {
-  background: linear-gradient(120deg, var(--vp-c-brand-3), #2f6f4f);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* 兜底：若 background-clip:text 不受支持，退回实色品牌绿（#2f6f4f on 白 = 6.0:1）
+     避免 -webkit-text-fill-color:transparent 导致标题整块不可见。 */
+  color: var(--vp-c-brand-1);
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .VPHero .text {
+    /* 双深色端渐变：两端对白底均 ≥6:1，满足大文本 AA 3:1 */
+    background: linear-gradient(120deg, #2f6f4f, #1f5a3e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 /* hero 图标/徽标不因 base 而变形 */
@@ -285,4 +300,28 @@
 }
 .dark .vp-doc div[class*="language-"] {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* ---- 静态 SVG 图深色适配（assets/viz/*.svg）----
+   两条路径：
+   1) 作者用 currentColor 绘制文本/描边（推荐）：其 fill/stroke 继承当前文字色，
+      这里仅把 currentColor 在深色下映射到浅色文字，实现自动适配。
+   2) 硬编码浅色的 SVG：给 <svg> 加 data-dark-filter 属性，启用深色反相滤镜
+      （近似反相+轻微色相补偿）。此为兜底，避免失真建议优先用 currentColor。
+*/
+.viz-figure svg {
+  max-width: 100%;
+  height: auto;
+}
+/* currentColor 在深色下指向浅色文字，正文插图文本/描边自然反色 */
+.dark .viz-figure svg {
+  color: var(--vp-c-text-1);
+}
+/* 兜底：data-dark-filter 属性的 SVG 在深色下反相近似适配 */
+.dark .viz-figure svg[data-dark-filter] {
+  filter: invert(0.92) hue-rotate(180deg);
+}
+/* Mermaid 生成的 SVG（.mermaid 容器）在深色下同样随 CSS 变量适配 */
+.dark .mermaid {
+  color: var(--vp-c-text-1);
 }
