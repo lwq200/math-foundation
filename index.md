@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: 📖 从第 1 册开始读
-      link: /册01-逻辑与数/第01章-数
+      link: /math-foundation/册01-逻辑与数/第01章-数
     - theme: alt
       text: 册06 · 概率统计与信息
-      link: /册06-概率统计与信息/第01章-概率公理
+      link: /math-foundation/册06-概率统计与信息/第01章-概率公理
 
 features:
   - icon: 🔄
