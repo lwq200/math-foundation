@@ -309,7 +309,8 @@
    2) 硬编码浅色的 SVG：给 <svg> 加 data-dark-filter 属性，启用深色反相滤镜
       （近似反相+轻微色相补偿）。此为兜底，避免失真建议优先用 currentColor。
 */
-.viz-figure svg {
+.viz-figure svg,
+.viz-figure img {
   max-width: 100%;
   height: auto;
 }
@@ -321,7 +322,16 @@
 .dark .viz-figure svg[data-dark-filter] {
   filter: invert(0.92) hue-rotate(180deg);
 }
-/* Mermaid 生成的 SVG（.mermaid 容器）在深色下同样随 CSS 变量适配 */
-.dark .mermaid {
-  color: var(--vp-c-text-1);
+/* <img> 引用的外部 SVG（如 assets/viz/fig-*.svg）：因 <img> 无法继承页面
+   CSS 变量，也不受 SVG 内部 @media(prefers-color-scheme) 控制（跟随 OS 而非
+   站点 html.dark）。此处让正文以 <img> 引用的静态图在站点深色模式下走反相滤镜，
+   跟随站点 html.dark 切换，而非 OS 偏好。 */
+.dark .viz-figure img {
+  filter: invert(0.92) hue-rotate(180deg);
+}
+/* Mermaid 生成的 SVG（.mermaid 容器）：themeVariables 用固定浅色实际值
+   （Mermaid 不支持 CSS var()），深色模式无法随变量切换，故用反相滤镜兜底，
+   与静态 SVG 图（.viz-figure img）方案一致。 */
+.dark .mermaid svg {
+  filter: invert(0.92) hue-rotate(180deg);
 }

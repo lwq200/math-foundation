@@ -151,9 +151,9 @@ onBeforeUnmount(() => {
   border-radius: 6px;
   background: var(--vp-c-bg);
   color: var(--vp-c-brand-1);
-  padding: 0.2em 0.8em;
+  padding: 0.2em 0.9em;
   cursor: pointer;
-  font-size: 0.85em;
+  font-size: 0.88em;
   transition: background 0.2s ease;
 }
 .mt-btn:hover { background: var(--vp-c-brand-soft); }

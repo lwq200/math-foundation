@@ -190,7 +190,7 @@ onBeforeUnmount(() => {
   gap: 1em;
   align-items: center;
   margin-bottom: 0.4em;
-  font-size: 0.95em;
+  font-size: 0.9em;
   font-variant-numeric: tabular-nums;
 }
 .kl-big { font-weight: 600; color: var(--vp-c-brand-1); }
@@ -211,7 +211,7 @@ onBeforeUnmount(() => {
 }
 .kl-board {
   width: 100%;
-  height: 360px;
+  height: 380px;
   border-radius: 8px;
   overflow: hidden;
 }

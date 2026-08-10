@@ -37,7 +37,7 @@
 
 ### 📐 知识锚点：路程 = 速度的累积——"碎片相加"的直觉
 
-<blockquote style="background:#fff8e1">
+<blockquote>
 
 【概念深挖】设 v(t) 是 t 时刻的速度（非负，为简单起见），要求 [a,b] 上的总路程。
 - **粗糙想法**：匀速时路程 = v·(b−a)；变速时没有单一 v。
@@ -65,7 +65,7 @@
 
 ### 📐 知识锚点：黎曼和与定积分的定义雏形
 
-<blockquote style="background:#e3f2fd">
+<blockquote>
 
 【概念深挖】**黎曼和（Riemann sum）**：
 - 对 [a,b] 取一个**分割（partition）** P：a=x₀<x₁<…<xₙ=b，记 Δxᵢ=xᵢ−xᵢ₋₁。
@@ -107,7 +107,7 @@
 
 ### 📐 知识锚点：可积性——连续必可积，但条件可放宽
 
-<blockquote style="background:#fff8e1">
+<blockquote>
 
 【概念深挖】**可积性的基本事实**（本册够用，严格证明超纲）：
 - **连续函数在闭区间 [a,b] 上必可积**：因为连续函数"不会跳"，切得够细时黎曼和稳定地逼近同一个数。**这是本册计算积分的默认前提。**
@@ -134,7 +134,7 @@
 
 ### 📐 知识锚点：FTC 第一基本定理——"累积的导数回到源头"
 
-<blockquote style="background:#e3f2fd">
+<blockquote>
 
 【概念深挖】**微积分基本定理（第一基本定理，FTC 1）**：
 > 设 f 在 [a,b] 上连续，定义 \(F(x)=\int_a^x f(t)\,dt\)（a≤x≤b）。则 F 在 (a,b) 内可导，且
@@ -166,7 +166,7 @@
 
 ### 📐 知识锚点：FTC 第二基本定理——"求积分 = 找反导数"
 
-<blockquote style="background:#fff8e1">
+<blockquote>
 
 【概念深挖】**微积分基本定理（第二基本定理，FTC 2）**：
 > 设 f 在 [a,b] 上连续，F 是 f 在 [a,b] 上的一个**反导数**（即 F'=f）。则
@@ -205,7 +205,7 @@
 
 ### 📐 知识锚点：全册脉络——"变化率→累积量"的对称
 
-<blockquote style="background:#e3f2fd">
+<blockquote>
 
 【概念深挖】把这一章放进整册的骨架里看：
 - **第 01 章**：导数（变化率）——"每刻变化多快"。

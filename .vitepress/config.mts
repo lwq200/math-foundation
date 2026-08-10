@@ -115,18 +115,18 @@ const books = [
 // fence 插件）、注册 Mermaid Vue 组件，并配置 mermaid 所需依赖别名。
 //
 // mermaid 主题：theme:'base' + themeVariables，走学术绿/暖金/赤褐配色，
-// 与全站视觉统一（美学评审）。深色适配通过「CSS 变量引用」实现——
-// primaryTextColor / lineColor 引用自定义 CSS 变量（见 custom.css 的
-// --mf-mermaid-text / --mf-mermaid-line），Mermaid 11 会把 var(...) 原样写入
-// SVG 属性，随 html.dark 切换自动变化，无需重渲染。
+// 与全站视觉统一（美学评审）。
+// 注意：Mermaid 解析颜色【不支持 CSS var()】（实测报 Unsupported color format），
+// 故这里用实际色值（浅色）；深色模式由 custom.css 的 `.dark .mermaid svg`
+// 反相滤镜兜底（与静态 SVG 图的深色方案一致）。
 export default defineConfig(withMermaid({
   mermaid: {
     theme: 'base',
     themeVariables: {
       primaryColor: '#2f6f4f33',
       primaryBorderColor: '#2f6f4f',
-      primaryTextColor: 'var(--mf-mermaid-text)',
-      lineColor: 'var(--mf-mermaid-line)',
+      primaryTextColor: '#2b302e',
+      lineColor: '#2f6f4f',
       secondaryColor: '#c9a22722',
       secondaryBorderColor: '#c9a227',
       tertiaryColor: '#b3382c22',
@@ -147,6 +147,10 @@ export default defineConfig(withMermaid({
 
   // 工程文档（蓝图 / 册 README）不参与站点构建
   srcExclude: ['**/蓝图_v0.1.md', '丛书蓝图_v0.1.md', '**/README.md'],
+
+  // 静态资源目录：项目根 public/（Vite 默认 publicDir，相对项目 root），
+  // 构建时原样复制到 dist。logo.svg / assets/viz/* 等放这里。
+  publicDir: 'public',
 
   head: [
     ['meta', { name: 'keywords', content: '数学,教材,微积分,线性代数,概率论,信息论,苏格拉底,对话体,自学' }],

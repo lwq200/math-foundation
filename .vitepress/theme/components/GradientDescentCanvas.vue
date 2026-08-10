@@ -136,7 +136,9 @@ async function buildBoard() {
     rebuildTrace()
   })
 
-  // η 滑杆：0.01 ~ 0.25（>0.25 时 y 方向必发散，留给读者自己试）
+  // η 滑杆：0.01 ~ 0.25。f=x²+9y² 的 y 方向梯度为 18y，y 方向稳定需
+  //         η ≤ 2/18 ≈ 0.111，故 η≈0.12 起 y 方向即开始发散；滑杆保留到
+  //         0.25 便于读者试"调到 0.2 看发散"（0.2×18=3.6>2，明显过冲）。
   etaSlider = board.create('slider', [
     [-2.7, 2.9], [2.1, 2.9], [0.01, 0.06, 0.25],
   ], { name: 'η', snapWidth: 0.01, strokeColor: '#c9a227', fillColor: '#e0b84c' })
@@ -236,9 +238,9 @@ onBeforeUnmount(() => {
   border-radius: 6px;
   background: var(--vp-c-bg);
   color: var(--vp-c-brand-1);
-  padding: 0.25em 1em;
+  padding: 0.2em 0.9em;
   cursor: pointer;
-  font-size: 0.9em;
+  font-size: 0.88em;
   transition: background 0.2s ease;
 }
 .gd-btn:hover {

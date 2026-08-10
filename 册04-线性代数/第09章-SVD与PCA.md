@@ -29,7 +29,7 @@
 
 ### 📐 知识锚点：A^T A——SVD 的钥匙（对称 + 半正定）
 
-<blockquote style="background:#fff8e1">
+<blockquote>
 
 【概念深挖】**对任意矩阵 A（m×n）**：
 - **AᵀA 是 n×n 对称矩阵**：(AᵀA)ᵀ=Aᵀ(Aᵀ)ᵀ=AᵀA。
@@ -62,7 +62,7 @@
 
 ### 📐 知识锚点：SVD 定理——"旋转-拉伸-旋转"的精确表述
 
-<blockquote style="background:#e3f2fd">
+<blockquote>
 
 【概念深挖】**奇异值分解（Singular Value Decomposition, SVD）**：
 > 任意 m×n 实矩阵 A 可分解为
@@ -99,7 +99,7 @@
 
 ### 📐 知识锚点：SVD 的手算流程——"三步走"
 
-<blockquote style="background:#fff8e1">
+<blockquote>
 
 【概念深挖】**手算 SVD 的三步**：
 1. **算 AᵀA**（对称矩阵），求其特征值 λᵢ（≥0）与特征向量 vᵢ（归一化）→ **V 的列**，奇异值 σᵢ=√λᵢ。
@@ -130,7 +130,7 @@
 
 ### 📐 知识锚点：PCA——"数据的 SVD"，降维与去相关
 
-<blockquote style="background:#e3f2fd">
+<blockquote>
 
 【概念深挖】**主成分分析（Principal Component Analysis, PCA）**：
 1. **中心化**：每个特征减去均值（数据云移到原点）。
