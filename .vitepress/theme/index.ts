@@ -15,6 +15,10 @@ import NormalDistSlider from './components/NormalDistSlider.vue'
 import EpsNSequences from './components/EpsNSequences.vue'
 import DotProduct from './components/DotProduct.vue'
 import CDFExplorer from './components/CDFExplorer.vue'
+// P1 交互组件（第三批）：矩阵变换 / KL 散度 / 中心极限定理（册04/册06）
+import MatrixTransform from './components/MatrixTransform.vue'
+import KLDivergence from './components/KLDivergence.vue'
+import CLTSampling from './components/CLTSampling.vue'
 
 /**
  * 对话体段落分类：正文中对话段为 <p><strong>老谟/造物主</strong>："…"</p>。
@@ -48,6 +52,9 @@ const theme: Theme = {
     app.component('EpsNSequences', EpsNSequences)
     app.component('DotProduct', DotProduct)
     app.component('CDFExplorer', CDFExplorer)
+    app.component('MatrixTransform', MatrixTransform)
+    app.component('KLDivergence', KLDivergence)
+    app.component('CLTSampling', CLTSampling)
     // 每次路由切换后（含首屏）重新分类，保证 SSR 直出的页面也有样式
     router.onAfterRouteChanged = () => {
       if (typeof requestAnimationFrame !== 'undefined') {
