@@ -160,8 +160,8 @@ export default defineConfig(withMermaid({
   lastUpdated: true,
   ignoreDeadLinks: true,
 
-  // 工程文档（蓝图 / 册 README）不参与站点构建
-  srcExclude: ['**/蓝图_v0.1.md', '丛书蓝图_v0.1.md', '**/README.md'],
+  // 工程文档（蓝图 / 册 README / 内部审核报告）不参与站点构建
+  srcExclude: ['**/蓝图_v0.1.md', '丛书蓝图_v0.1.md', '**/README.md', '审核报告/**'],
 
   // 静态资源目录：项目根 public/（Vite 默认 publicDir，相对项目 root），
   // 构建时原样复制到 dist。logo.svg / assets/viz/* 等放这里。
