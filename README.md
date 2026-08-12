@@ -47,3 +47,5 @@ npm run build      # 生产构建，产物在 .vitepress/dist/
 ## 相关
 
 - 创作这套教材的写作工作流：[socratic-book-coauthor](https://github.com/lwq200/creation-game/tree/main/skills/socratic-book-coauthor)
+- 同门师弟——杂学篇（生活技能宇宙：🍳 学做饭、💬 谈恋爱与沟通……原理到手，万物皆可造）：[creation-game-misc](https://github.com/lwq200/creation-game-misc)
+- 老谟 × 造物主的原版故事线：[creation-game](https://github.com/lwq200/creation-game)
