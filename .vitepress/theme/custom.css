@@ -222,6 +222,19 @@
     -webkit-text-fill-color: transparent;
   }
 }
+/* 深色模式下 hero 标题：深绿渐变在 #1b1b1f 上对比度极低（P0），
+   改用亮绿→暖金渐变（大文本对深底 ≥ 4.5:1），兜底实色同步适配 */
+.dark .VPHero .text {
+  color: #7ec9a0;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .dark .VPHero .text {
+    background: linear-gradient(120deg, #7ec9a0, #c9a227);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
 
 /* hero 图标/徽标不因 base 而变形 */
 .VPHero .image-container img {

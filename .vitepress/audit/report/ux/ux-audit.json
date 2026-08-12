@@ -1,0 +1,364 @@
+[
+  {
+    "name": "home",
+    "path": "/",
+    "theme": "light",
+    "desktop": {
+      "hero": {
+        "nameColor": "rgb(60, 60, 67)",
+        "nameTextFill": "rgb(60, 60, 67)",
+        "textColor": "rgb(47, 111, 79)",
+        "textFill": "rgba(0, 0, 0, 0)",
+        "textBg": "linear-gradient(120deg, rgb(47, 111, 79), rgb(31, 90, 62))",
+        "textBgColor": "rgba(0, 0, 0, 0)",
+        "isDark": false,
+        "bg": "#ffffff",
+        "imgSrc": [
+          "/math-foundation/logo.svg",
+          "/math-foundation/logo.svg"
+        ]
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "home-light-mobile.png"
+    },
+    "errors": [
+      "console: Hydration completed but contains mismatches."
+    ],
+    "shot": "home-light.png"
+  },
+  {
+    "name": "home",
+    "path": "/",
+    "theme": "dark",
+    "desktop": {
+      "hero": {
+        "nameColor": "rgb(223, 223, 214)",
+        "nameTextFill": "rgb(223, 223, 214)",
+        "textColor": "rgb(95, 208, 160)",
+        "textFill": "rgba(0, 0, 0, 0)",
+        "textBg": "linear-gradient(120deg, rgb(47, 111, 79), rgb(31, 90, 62))",
+        "textBgColor": "rgba(0, 0, 0, 0)",
+        "isDark": true,
+        "bg": "#1b1b1f",
+        "imgSrc": [
+          "/math-foundation/logo.svg",
+          "/math-foundation/logo.svg"
+        ]
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "home-dark-mobile.png"
+    },
+    "errors": [
+      "console: Hydration completed but contains mismatches."
+    ],
+    "shot": "home-dark.png"
+  },
+  {
+    "name": "ch01-mermaid-dialog",
+    "path": "/册01-逻辑与数/第01章-数",
+    "theme": "light",
+    "desktop": {
+      "mermaid": {
+        "rendered": true,
+        "filter": "none",
+        "isDark": false
+      },
+      "dialog": {
+        "laoBg": "rgba(47, 111, 79, 0.1)",
+        "laoBorder": "rgb(61, 139, 102)",
+        "laoColor": "rgb(60, 60, 67)",
+        "count": {
+          "lao": 36,
+          "zao": 0
+        }
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "ch01-mermaid-dialog-light-mobile.png"
+    },
+    "errors": [],
+    "shot": "ch01-mermaid-dialog-light.png"
+  },
+  {
+    "name": "ch01-mermaid-dialog",
+    "path": "/册01-逻辑与数/第01章-数",
+    "theme": "dark",
+    "desktop": {
+      "mermaid": {
+        "rendered": true,
+        "filter": "invert(0.92) hue-rotate(180deg)",
+        "isDark": true
+      },
+      "dialog": {
+        "laoBg": "rgba(95, 208, 160, 0.12)",
+        "laoBorder": "rgb(47, 143, 99)",
+        "laoColor": "rgb(223, 223, 214)",
+        "count": {
+          "lao": 36,
+          "zao": 0
+        }
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "ch01-mermaid-dialog-dark-mobile.png"
+    },
+    "errors": [],
+    "shot": "ch01-mermaid-dialog-dark.png"
+  },
+  {
+    "name": "ch04-katex",
+    "path": "/册03-单变量微积分/第04章-积分与FTC",
+    "theme": "light",
+    "desktop": {
+      "katex": {
+        "rendered": true,
+        "color": "rgb(103, 103, 108)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "isDark": false
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "ch04-katex-light-mobile.png"
+    },
+    "errors": [],
+    "shot": "ch04-katex-light.png"
+  },
+  {
+    "name": "ch04-katex",
+    "path": "/册03-单变量微积分/第04章-积分与FTC",
+    "theme": "dark",
+    "desktop": {
+      "katex": {
+        "rendered": true,
+        "color": "rgb(152, 152, 159)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "isDark": true
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "ch04-katex-dark-mobile.png"
+    },
+    "errors": [],
+    "shot": "ch04-katex-dark.png"
+  },
+  {
+    "name": "ch06-matrix",
+    "path": "/册04-线性代数/第06章-特征值与特征向量",
+    "theme": "light",
+    "desktop": {
+      "board": {
+        "rendered": false
+      },
+      "dialog": {
+        "laoBg": "rgba(47, 111, 79, 0.1)",
+        "laoBorder": "rgb(61, 139, 102)",
+        "laoColor": "rgb(60, 60, 67)",
+        "count": {
+          "lao": 14,
+          "zao": 0
+        }
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "ch06-matrix-light-mobile.png"
+    },
+    "errors": [],
+    "shot": "ch06-matrix-light.png"
+  },
+  {
+    "name": "ch06-matrix",
+    "path": "/册04-线性代数/第06章-特征值与特征向量",
+    "theme": "dark",
+    "desktop": {
+      "board": {
+        "rendered": false
+      },
+      "dialog": {
+        "laoBg": "rgba(95, 208, 160, 0.12)",
+        "laoBorder": "rgb(47, 143, 99)",
+        "laoColor": "rgb(223, 223, 214)",
+        "count": {
+          "lao": 14,
+          "zao": 0
+        }
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "ch06-matrix-dark-mobile.png"
+    },
+    "errors": [],
+    "shot": "ch06-matrix-dark.png"
+  },
+  {
+    "name": "ch03-tangent",
+    "path": "/册03-单变量微积分/第01章-导数",
+    "theme": "light",
+    "desktop": {
+      "board": {
+        "rendered": false
+      },
+      "dialog": {
+        "count": {
+          "lao": 0,
+          "zao": 0
+        }
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "ch03-tangent-light-mobile.png"
+    },
+    "errors": [
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "console: Failed to load resource: net::ERR_NETWORK_CHANGED"
+    ],
+    "shot": "ch03-tangent-light.png"
+  },
+  {
+    "name": "ch03-tangent",
+    "path": "/册03-单变量微积分/第01章-导数",
+    "theme": "dark",
+    "desktop": {
+      "board": {
+        "rendered": true,
+        "svg": false
+      },
+      "dialog": {
+        "laoBg": "rgba(95, 208, 160, 0.12)",
+        "laoBorder": "rgb(47, 143, 99)",
+        "laoColor": "rgb(223, 223, 214)",
+        "count": {
+          "lao": 14,
+          "zao": 0
+        }
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "ch03-tangent-dark-mobile.png"
+    },
+    "errors": [],
+    "shot": "ch03-tangent-dark.png"
+  },
+  {
+    "name": "answer-key",
+    "path": "/册01-逻辑与数/答案速查页",
+    "theme": "light",
+    "desktop": {
+      "table": {
+        "rendered": false
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "answer-key-light-mobile.png"
+    },
+    "errors": [],
+    "shot": "answer-key-light.png"
+  },
+  {
+    "name": "answer-key",
+    "path": "/册01-逻辑与数/答案速查页",
+    "theme": "dark",
+    "desktop": {
+      "table": {
+        "rendered": false
+      }
+    },
+    "mobile": {
+      "overflow": {
+        "docScrollW": 390,
+        "docClientW": 390,
+        "overflowX": false
+      },
+      "shot": "answer-key-dark-mobile.png"
+    },
+    "errors": [],
+    "shot": "answer-key-dark.png"
+  }
+]

@@ -5,17 +5,52 @@
     "http": 200,
     "errors": [
       {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
       },
       {
         "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
       },
       {
         "type": "console",
-        "msg": "Hydration completed but contains mismatches."
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      },
+      {
+        "type": "console",
+        "msg": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
       }
     ],
     "checks": {
@@ -35,35 +70,17 @@
     "name": "册01-01-数",
     "path": "/册01-逻辑与数/第01章-数",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      },
-      {
-        "type": "console",
-        "msg": "Error: Unsupported color format: \"var(--mf-mermaid-line)\"\n    at Object.parse (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:924:11)\n    at invert (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:1007:27)\n    at Theme.updateColors (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2643:60)\n    at Theme.calculate (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2938:10)\n    at Object.getThemeVariables (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2946:10)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26294:60)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26428:14)\n    at render (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26567:19)\n    at renderChart (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26635:27)\n    at http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26608:13"
-      },
-      {
-        "type": "pageerror",
-        "msg": "Unsupported color format: \"var(--mf-mermaid-text)\""
-      }
-    ],
+    "errors": [],
     "checks": {
       "mermaid": {
         "mermaidSvgCount": 1,
         "rendered": true
       },
       "dark": {
-        "svgBefore": 1,
+        "svgBefore": 2,
         "svgAfter": 1,
-        "svgPersisted": true,
-        "newPageErrors": 1,
+        "svgPersisted": false,
+        "newPageErrors": 0,
         "newConsoleErrors": 0,
         "anchorBlockquoteCount": 0,
         "anchorBlockquoteBg": []
@@ -74,35 +91,17 @@
     "name": "册02-02-浮点",
     "path": "/册02-实数极限与连续/第02章-浮点",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      },
-      {
-        "type": "console",
-        "msg": "Error: Unsupported color format: \"var(--mf-mermaid-line)\"\n    at Object.parse (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:924:11)\n    at invert (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:1007:27)\n    at Theme.updateColors (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2643:60)\n    at Theme.calculate (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2938:10)\n    at Object.getThemeVariables (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2946:10)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26294:60)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26428:14)\n    at render (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26567:19)\n    at renderChart (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26635:27)\n    at http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26608:13"
-      },
-      {
-        "type": "pageerror",
-        "msg": "Unsupported color format: \"var(--mf-mermaid-text)\""
-      }
-    ],
+    "errors": [],
     "checks": {
       "mermaid": {
         "mermaidSvgCount": 1,
         "rendered": true
       },
       "dark": {
-        "svgBefore": 1,
-        "svgAfter": 1,
+        "svgBefore": 2,
+        "svgAfter": 2,
         "svgPersisted": true,
-        "newPageErrors": 1,
+        "newPageErrors": 0,
         "newConsoleErrors": 0,
         "anchorBlockquoteCount": 0,
         "anchorBlockquoteBg": []
@@ -113,35 +112,17 @@
     "name": "册05-01-多元函数与偏导",
     "path": "/册05-多元微积分与凸优化/第01章-多元函数与偏导",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      },
-      {
-        "type": "console",
-        "msg": "Error: Unsupported color format: \"var(--mf-mermaid-line)\"\n    at Object.parse (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:924:11)\n    at invert (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:1007:27)\n    at Theme.updateColors (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2643:60)\n    at Theme.calculate (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2938:10)\n    at Object.getThemeVariables (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2946:10)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26294:60)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26428:14)\n    at render (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26567:19)\n    at renderChart (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26635:27)\n    at http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26608:13"
-      },
-      {
-        "type": "pageerror",
-        "msg": "Unsupported color format: \"var(--mf-mermaid-text)\""
-      }
-    ],
+    "errors": [],
     "checks": {
       "mermaid": {
         "mermaidSvgCount": 1,
         "rendered": true
       },
       "dark": {
-        "svgBefore": 1,
-        "svgAfter": 1,
+        "svgBefore": 2,
+        "svgAfter": 2,
         "svgPersisted": true,
-        "newPageErrors": 1,
+        "newPageErrors": 0,
         "newConsoleErrors": 0,
         "anchorBlockquoteCount": 0,
         "anchorBlockquoteBg": []
@@ -152,35 +133,17 @@
     "name": "册05-02-多元链式法则与多元泰勒",
     "path": "/册05-多元微积分与凸优化/第02章-多元链式法则与多元泰勒",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      },
-      {
-        "type": "console",
-        "msg": "Error: Unsupported color format: \"var(--mf-mermaid-line)\"\n    at Object.parse (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:924:11)\n    at invert (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:1007:27)\n    at Theme.updateColors (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2643:60)\n    at Theme.calculate (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2938:10)\n    at Object.getThemeVariables (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2946:10)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26294:60)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26428:14)\n    at render (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26567:19)\n    at renderChart (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26635:27)\n    at http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26608:13"
-      },
-      {
-        "type": "pageerror",
-        "msg": "Unsupported color format: \"var(--mf-mermaid-text)\""
-      }
-    ],
+    "errors": [],
     "checks": {
       "mermaid": {
         "mermaidSvgCount": 1,
         "rendered": true
       },
       "dark": {
-        "svgBefore": 1,
-        "svgAfter": 1,
+        "svgBefore": 2,
+        "svgAfter": 2,
         "svgPersisted": true,
-        "newPageErrors": 1,
+        "newPageErrors": 0,
         "newConsoleErrors": 0,
         "anchorBlockquoteCount": 0,
         "anchorBlockquoteBg": []
@@ -191,35 +154,17 @@
     "name": "册05-05-凸性判定与二次型",
     "path": "/册05-多元微积分与凸优化/第05章-凸性判定与二次型",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      },
-      {
-        "type": "console",
-        "msg": "Error: Unsupported color format: \"var(--mf-mermaid-line)\"\n    at Object.parse (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:924:11)\n    at invert (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:1007:27)\n    at Theme.updateColors (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2643:60)\n    at Theme.calculate (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2938:10)\n    at Object.getThemeVariables (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:2946:10)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26294:60)\n    at Object.initialize (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26428:14)\n    at render (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26567:19)\n    at renderChart (http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26635:27)\n    at http://localhost:4173/math-foundation/assets/app.4ED6ED0v.js:26608:13"
-      },
-      {
-        "type": "pageerror",
-        "msg": "Unsupported color format: \"var(--mf-mermaid-text)\""
-      }
-    ],
+    "errors": [],
     "checks": {
       "mermaid": {
         "mermaidSvgCount": 1,
         "rendered": true
       },
       "dark": {
-        "svgBefore": 1,
+        "svgBefore": 2,
         "svgAfter": 1,
-        "svgPersisted": true,
-        "newPageErrors": 1,
+        "svgPersisted": false,
+        "newPageErrors": 0,
         "newConsoleErrors": 0,
         "anchorBlockquoteCount": 0,
         "anchorBlockquoteBg": []
@@ -230,17 +175,7 @@
     "name": "册02-03-数列极限-EpsN",
     "path": "/册02-实数极限与连续/第03章-数列极限",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -266,17 +201,7 @@
     "name": "册02-04-函数极限-LimitED",
     "path": "/册02-实数极限与连续/第04章-函数极限",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "svg": {
         "src": "/math-foundation/assets/fig-euler-limit.CPdQTMqG.svg",
@@ -309,17 +234,7 @@
     "name": "册03-01-导数-Tangent",
     "path": "/册03-单变量微积分/第01章-导数",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "svg": {
         "src": "/math-foundation/assets/fig-tangent-slope.DMQbNiuK.svg",
@@ -351,17 +266,7 @@
     "name": "册03-04-积分-Riemann",
     "path": "/册03-单变量微积分/第04章-积分与FTC",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -387,17 +292,7 @@
     "name": "册04-01-向量-DotProduct",
     "path": "/册04-线性代数/第01章-向量",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -423,17 +318,7 @@
     "name": "册04-06-特征值-Matrix",
     "path": "/册04-线性代数/第06章-特征值与特征向量",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -458,17 +343,7 @@
     "name": "册05-06-梯度下降-GD",
     "path": "/册05-多元微积分与凸优化/第06章-无约束优化与梯度下降",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -494,17 +369,7 @@
     "name": "册06-03-随机变量-CDF",
     "path": "/册06-概率统计与信息/第03章-随机变量与分布",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -530,17 +395,7 @@
     "name": "册06-05-频率派-CLT",
     "path": "/册06-概率统计与信息/第05章-频率派统计",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -565,17 +420,7 @@
     "name": "册06-07-分布族-NormalDist",
     "path": "/册06-概率统计与信息/第07章-常见分布族",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -601,17 +446,7 @@
     "name": "册06-09-互信息-KL",
     "path": "/册06-概率统计与信息/第09章-互信息与KL散度",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "component": {
         "boardSvgCount": 0,
@@ -637,17 +472,7 @@
     "name": "册02-首页-实数",
     "path": "/册02-实数极限与连续/第01章-实数",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "title": "第 01 章 · 实数——把\"洞\"补上，把\"越界\"定义出来 ​"
     }
@@ -656,17 +481,7 @@
     "name": "册04-首页-向量",
     "path": "/册04-线性代数/第01章-向量",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "title": "第 01 章 · 向量——有方向的数量 ​"
     }
@@ -675,17 +490,7 @@
     "name": "册06-首页-概率公理",
     "path": "/册06-概率统计与信息/第01章-概率公理",
     "http": 200,
-    "errors": [
-      {
-        "type": "http",
-        "status": 404,
-        "url": "http://localhost:4173/math-foundation/logo.svg"
-      },
-      {
-        "type": "console",
-        "msg": "Failed to load resource: the server responded with a status of 404 (Not Found)"
-      }
-    ],
+    "errors": [],
     "checks": {
       "title": "第 01 章 · 概率公理——给\"标价签\"浇地基 ​"
     }

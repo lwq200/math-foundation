@@ -10,6 +10,8 @@
  * SSR 安全：jsxgraph 仅 onMounted 动态 import；ref 容器避免 id 冲突。
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -22,7 +24,6 @@ const deltaVal = ref(1.2)
 const statusText = ref<'out' | 'in'>('out')
 const minDelta = ref(0.05)
 
-let JXG: any = null
 let board: any = null
 let curve: any = null
 let topBand: any = null
@@ -69,11 +70,8 @@ function refresh() {
   minDelta.value = enoughDelta(eps)
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   // bbox：x∈[−1.4, 5.4]，y∈[−1.5, 6.5]，让 ε 带(≈2~6)与 δ 带(≈0.5~3.5)都可见
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-1.4, 6.5, 5.4, -1.5],
@@ -141,8 +139,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

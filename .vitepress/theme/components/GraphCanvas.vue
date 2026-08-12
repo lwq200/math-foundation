@@ -10,6 +10,8 @@
 -->
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const container = ref<HTMLDivElement | null>(null)
 
@@ -18,8 +20,6 @@ const container = ref<HTMLDivElement | null>(null)
 // 实际绘图逻辑由 interaction-prototyper 在 onMounted 中实现。
 onMounted(async () => {
   if (!container.value) return
-  // 动态加载 jsxgraph，确保不阻塞首屏；defineClientComponent 已保证仅在浏览器执行。
-  const JXG = (await import('jsxgraph')).JXG
   // initBoard 接受元素引用（而非 id 字符串），多实例安全。
   const board = JXG.JSXGraph.initBoard(container.value, {
     boundingbox: [-6, 6, 6, -6],

@@ -2,6 +2,11 @@ import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import 'katex/dist/katex.min.css'
 import './custom.css'
+// 首屏预载 JSXGraph：12 个交互画布（TangentCanvas 等）经 defineClientComponent 懒加载，
+// 其依赖的 jsxgraph chunk 直到组件挂载才被 __vitePreload 请求，恰逢 60+ 个 mermaid
+// chunk 下载高峰，被浏览器连接池排队 ~19s（画布长时间空白）。此处把 jsxgraph 拉进
+// theme 首屏静态依赖链，构建时 index.html 即生成 modulepreload，文档解析早期并行预取。
+import 'jsxgraph'
 // 交互组件（JSXGraph）：包装器统一在此注册，画布由 defineClientComponent 懒加载。
 import TangentExplorer from './components/TangentExplorer.vue'
 // 部署集成师的通用交互画布包装器（defineClientComponent 懒加载，SSR 安全）

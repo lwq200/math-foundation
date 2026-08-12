@@ -9,6 +9,8 @@
  * 画布默认画「中点」矩形（半透明绿），读数同时显示 L(n)/R(n)/M(n) 与真值。
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -23,7 +25,6 @@ const sumR = ref(0)
 const sumM = ref(0)
 const errM = ref(0)
 
-let JXG: any = null
 let board: any = null
 let curve: any = null
 let rects: any[] = []
@@ -85,11 +86,8 @@ function refresh() {
   rebuildRects(n)
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-0.4, 5.2, 2.6, -0.6],
     axis: true,
@@ -134,8 +132,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

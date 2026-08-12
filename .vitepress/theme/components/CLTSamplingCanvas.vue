@@ -9,6 +9,8 @@
  * 铁律：先看 n 小时的歪斜形状，再增大 n 看它"长脸"——过程可见。
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -18,7 +20,6 @@ const nVal = ref(5)
 const totalSamples = ref(200)
 const theoSigma = ref(0.1291)
 
-let JXG: any = null
 let board: any = null
 let counts: number[] = new Array(NBINS).fill(0)
 let bars: any[] = []
@@ -89,11 +90,8 @@ function resetAll() {
   drawNorm()
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [0, 8.2, 1, -0.2],
     axis: true,
@@ -139,8 +137,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

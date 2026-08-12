@@ -8,6 +8,8 @@
  *  - 点积是"对齐程度"的度量：cosθ 就是对齐的标尺
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -18,7 +20,6 @@ const cosVal = ref(0)
 const angDeg = ref(0)
 const projVal = ref(0)
 
-let JXG: any = null
 let board: any = null
 let uPt: any = null
 let vPt: any = null
@@ -43,11 +44,8 @@ function update() {
   if (angleEl) angleEl.setAttribute({ visible: lu > 0.05 && lv > 0.05 })
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-5.5, 5.5, 5.5, -5.5],
     axis: true,
@@ -103,8 +101,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

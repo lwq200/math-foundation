@@ -8,6 +8,8 @@
  * 「任意 ε 都能找到 N，使 n>N 之后全部进带」→ 极限的几何化。
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -16,7 +18,6 @@ const epsVal = ref(0.3)
 const nVal = ref(4)
 const inBand = ref(0)
 
-let JXG: any = null
 let board: any = null
 let pts: any[] = []
 let bandTop: any = null
@@ -49,11 +50,8 @@ function rebuild() {
   inBand.value = cnt
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-1, 1.15, NMAX + 3, -0.3],
     axis: true,
@@ -111,8 +109,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

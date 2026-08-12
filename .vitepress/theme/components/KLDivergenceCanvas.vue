@@ -10,6 +10,8 @@
  *    要用形状不同的分布才能看出不对称。
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -25,7 +27,6 @@ const BARW = 0.34
 const YMIN = 0.05
 const YMAX = 1.1
 
-let JXG: any = null
 let board: any = null
 let pPts: any[] = []
 let qPts: any[] = []
@@ -78,11 +79,8 @@ function rebuild() {
   draw(QX, q, '#c9a227')
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [0.1, 1.35, 5.7, -0.25],
     axis: true,
@@ -136,8 +134,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

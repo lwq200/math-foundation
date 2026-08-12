@@ -3,4 +3,7 @@ node_modules/
 .vitepress/cache/
 .vitepress/.temp/
 *.log
+*.err
+*.out
 .DS_Store
+.codebuddy/

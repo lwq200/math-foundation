@@ -9,6 +9,8 @@
  *  - 恒等矩阵椭圆=圆；剪切矩阵圆被"斜拉"；旋转矩阵圆仍是圆（只是转）
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -17,7 +19,6 @@ const bVal = ref(0)
 const cVal = ref(0)
 const dVal = ref(1)
 
-let JXG: any = null
 let board: any = null
 let unitCircle: any = null
 let ellipse: any = null
@@ -54,11 +55,8 @@ function setMatrix(a: number, b: number, c: number, d: number) {
   rebuild()
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-4.5, 4.5, 4.5, -4.5],
     axis: true,
@@ -94,8 +92,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

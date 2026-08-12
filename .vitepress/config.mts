@@ -165,6 +165,8 @@ export default defineConfig(withMermaid({
 
   // 静态资源目录：项目根 public/（Vite 默认 publicDir，相对项目 root），
   // 构建时原样复制到 dist。logo.svg / assets/viz/* 等放这里。
+  // 注意：.vitepress/public/ 不是 VitePress 的 public 目录，放那里不会进 dist！
+  // （img-opt.mjs 曾把产物写 .vitepress/public/，导致优化图与 PNG 从未上线）
   publicDir: 'public',
 
   head: [
@@ -187,6 +189,49 @@ export default defineConfig(withMermaid({
     },
   },
 
+  // 修复懒加载 modulepreload 404：Vite 默认在 __vite__mapDeps 里生成相对 outDir
+  // 的资源路径（如 assets/chunks/xxx.js），浏览器把它相对文档 URL 解析（页面在
+  // /册xx/第xx章 多级目录），导致懒加载组件的 modulepreload 404、jsxgraph 无预取
+  // 提示被低优先级调度（画布空白 ~19s）。这里把 JS 内资源 URL 统一改为带 base 的
+  // 绝对路径（html 里 VitePress 生成的 modulepreload 本就是绝对路径，行为对齐）。
+  vite: {
+    experimental: {
+      renderBuiltUrl(filename: string, { hostType }: { hostType: 'js' | 'css' | 'html' }) {
+        if (hostType === 'js') return '/math-foundation/' + filename
+        return { relative: true }
+      },
+    },
+    build: {
+      modulePreload: {
+        resolveDependencies(_filename: string, deps: string[], context: { hostType: string }) {
+          if (context.hostType !== 'js') return deps
+          return deps.filter((dep) => {
+            const f = dep.split('/').pop() || dep
+            // 首屏只预取核心依赖。mermaid diagram chunks（flowDiagram-*、
+            // timeline-definition-*、diagram-*、architectureDiagram-* 等）与 12 个
+            // Canvas 懒加载组件改为运行时 __vitePreload 按需预取：60+ chunks 全量
+            // 首屏预取会占死浏览器连接池，2.7MB 的 jsxgraph 曾因此排队 ~15s（画布空白）。
+            if (/([Dd]iagram|definition)/.test(f) || /Canvas\./.test(f)) return false
+            return true
+          })
+        },
+      },
+      rollupOptions: {
+        output: {
+          // 强制把 jsxgraph 拆成独立 chunk（否则会被内联进 theme，膨胀到 2.8MB）。
+          // theme 首屏静态依赖它（theme/index.ts 里 import 'jsxgraph'），构建时
+          // index.html 才生成 modulepreload → 文档解析早期并行预取，避开 mermaid
+          // 60+ chunk 下载高峰（此前 jsxgraph 被浏览器连接池排队 ~19s，画布空白）。
+          manualChunks(id: string) {
+            // 用函数形式：jsxgraph 被 SSR external，对象形式会校验入口报错。
+            // 按模块 ID 把 jsxgraph 拆成独立 chunk（避免被内联进 theme 膨胀 2.8MB）。
+            if (id.includes('node_modules/jsxgraph')) return 'jsxgraph'
+          },
+        },
+      },
+    },
+  },
+
   themeConfig: {
     logo: '/logo.svg',
     siteTitle: '数学基础系列',
@@ -201,6 +246,7 @@ export default defineConfig(withMermaid({
           { text: '册04 · 线性代数', link: '/册04-线性代数/第01章-向量' },
           { text: '册05 · 多元微积分与凸优化', link: '/册05-多元微积分与凸优化/第01章-多元函数与偏导' },
           { text: '册06 · 概率统计与信息', link: '/册06-概率统计与信息/第01章-概率公理' },
+          { text: '册07 · 图论与可计算性', link: '/册07-图论与可计算性/第01章-图的基础' },
         ],
       },
     ],

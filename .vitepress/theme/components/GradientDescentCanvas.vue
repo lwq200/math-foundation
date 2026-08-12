@@ -10,6 +10,8 @@
  * 铁律：**先逐点看轨迹，再谈收敛**——步进按钮保证不吞推导、不闪现终点。
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -21,7 +23,6 @@ const state = ref<'iter' | 'done' | 'diverged'>('iter')
 const etaVal = ref(0.06)
 const fx = (x: number, y: number) => x * x + 9 * y * y
 
-let JXG: any = null
 let board: any = null
 let startPt: any = null
 let trace: any = null
@@ -81,11 +82,8 @@ function stepN(n: number) {
   rebuildTrace()
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-3, 3.2, 3, -3.2],
     axis: true,
@@ -158,8 +156,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

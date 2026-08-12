@@ -18,6 +18,8 @@
  * 用 ref 容器而非固定 id，保证一页多个实例不冲突。
  */
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -38,7 +40,6 @@ const slopeVal = ref<number>(0)
 const aVal = ref<number>(1)
 const hVal = ref<number>(1)
 
-let JXG: any = null
 let board: any = null
 let curve: any = null
 let tanLine: any = null
@@ -100,13 +101,8 @@ function redrawFunction() {
   updateReadouts(a, h)
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  // 动态加载 jsxgraph（仅浏览器，懒加载，不进首屏主包）
-  // jsxgraph 1.13+ ESM 为 default 导出，旧版为 .JXG 命名导出，兼容两种
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-6, 8, 6, -8],
     axis: true,
@@ -206,8 +202,8 @@ function switchFn(k: FnKey) {
 // 函数切换：重建曲线 + 切线 + 割线 + 读数
 watch(fnKey, () => redrawFunction())
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {

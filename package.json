@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
-    "build:all": "npm run img-opt && vitepress build",
+    "build:all": "npm run img-opt && vitepress build && node scripts/_postprocess-html.mjs",
     "preview": "vitepress preview",
     "img-opt": "node scripts/img-opt.mjs",
     "test:vrt": "node scripts/visual-regression.mjs"

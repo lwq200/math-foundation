@@ -9,6 +9,8 @@
  *    纵轴不是概率，是"密度"；概率是"面积"。
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import JXG from 'jsxgraph'
 
 const boardEl = ref<HTMLDivElement | null>(null)
 
@@ -18,7 +20,6 @@ const peakVal = ref(0.4)
 const xmVal = ref(0)
 const fmVal = ref(0)
 
-let JXG: any = null
 let board: any = null
 let curve: any = null
 let muSlider: any = null
@@ -51,11 +52,8 @@ function rebuildCurve() {
   fmVal.value = pdf(mu, mu, sigma)
 }
 
-async function buildBoard() {
+function buildBoard() {
   if (!boardEl.value) return
-  const jsxg = await import('jsxgraph')
-  JXG = jsxg.default ?? jsxg.JXG
-
   board = JXG.JSXGraph.initBoard(boardEl.value, {
     boundingbox: [-8, 1.5, 8, -0.2],
     axis: true,
@@ -95,8 +93,8 @@ async function buildBoard() {
   }
 }
 
-onMounted(async () => {
-  await buildBoard()
+onMounted(() => {
+  buildBoard()
 })
 
 onBeforeUnmount(() => {
