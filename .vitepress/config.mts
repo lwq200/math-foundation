@@ -172,6 +172,10 @@ export default defineConfig(withMermaid({
   head: [
     ['meta', { name: 'keywords', content: '数学,教材,微积分,线性代数,概率论,信息论,苏格拉底,对话体,自学' }],
     ['meta', { name: 'theme-color', content: '#42b883' }],
+    // favicon：指向 public/logo.svg。注意：head 里的 link 不参与 VitePress 的
+    // withBase 自动加前缀（与 hero image/actions 不同，实测线上 /logo.svg 404），
+    // 必须显式写带 base 的绝对路径，消除 /favicon.ico 404。
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/math-foundation/logo.svg' }],
   ],
 
   markdown: {
