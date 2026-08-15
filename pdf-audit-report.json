@@ -1,0 +1,71 @@
+[
+  {
+    "file": "册01-逻辑与数.pdf",
+    "pages": 101,
+    "issues": [],
+    "summary": {
+      "nearBlank": 0,
+      "orphan": 0
+    }
+  },
+  {
+    "file": "册02-实数极限与连续.pdf",
+    "pages": 93,
+    "issues": [],
+    "summary": {
+      "nearBlank": 0,
+      "orphan": 0
+    }
+  },
+  {
+    "file": "册03-单变量微积分.pdf",
+    "pages": 146,
+    "issues": [],
+    "summary": {
+      "nearBlank": 0,
+      "orphan": 0
+    }
+  },
+  {
+    "file": "册04-线性代数.pdf",
+    "pages": 136,
+    "issues": [
+      {
+        "type": "near-blank",
+        "page": 136,
+        "detail": "正文仅 26 字（全页 55 字）"
+      }
+    ],
+    "summary": {
+      "nearBlank": 1,
+      "orphan": 0
+    }
+  },
+  {
+    "file": "册05-多元微积分与凸优化.pdf",
+    "pages": 138,
+    "issues": [],
+    "summary": {
+      "nearBlank": 0,
+      "orphan": 0
+    }
+  },
+  {
+    "file": "册06-概率统计与信息.pdf",
+    "pages": 105,
+    "issues": [],
+    "summary": {
+      "nearBlank": 0,
+      "orphan": 0
+    }
+  },
+  {
+    "file": "册07-图论与可计算性.pdf",
+    "pages": 156,
+    "issues": [],
+    "summary": {
+      "nearBlank": 0,
+      "orphan": 0
+    }
+  }
+]

@@ -34,6 +34,22 @@ features:
     details: 逻辑与数 → 实数极限与连续 → 单变量微积分 → 线性代数 → 多元微积分与凸优化 → 概率统计与信息 → 图论与可计算性。
 ---
 
+## 离线下载
+
+每册支持两种格式：**PDF**（打印批注友好）+ **EPUB**（Kindle/手机阅读，公式已内嵌 KaTeX 字体，流程图转 PNG）。
+
+| 册 | PDF | EPUB |
+|---|---|---|
+| 册01 · 逻辑与数（6 章） | [下载](downloads/册01-逻辑与数.pdf) | [下载](downloads/册01-逻辑与数.epub) |
+| 册02 · 实数极限与连续（5 章） | [下载](downloads/册02-实数极限与连续.pdf) | [下载](downloads/册02-实数极限与连续.epub) |
+| 册03 · 单变量微积分（8 章） | [下载](downloads/册03-单变量微积分.pdf) | [下载](downloads/册03-单变量微积分.epub) |
+| 册04 · 线性代数（9 章） | [下载](downloads/册04-线性代数.pdf) | [下载](downloads/册04-线性代数.epub) |
+| 册05 · 多元微积分与凸优化（8 章） | [下载](downloads/册05-多元微积分与凸优化.pdf) | [下载](downloads/册05-多元微积分与凸优化.epub) |
+| 册06 · 概率统计与信息（9 章） | [下载](downloads/册06-概率统计与信息.pdf) | [下载](downloads/册06-概率统计与信息.epub) |
+| 册07 · 图论与可计算性（8 章） | [下载](downloads/册07-图论与可计算性.pdf) | [下载](downloads/册07-图论与可计算性.epub) |
+
+> 导出脚本：`scripts/export-books.mjs`（`node scripts/export-books.mjs` 重出全部；`--book N` 单册；`--skip-pdf` 跳过 PDF）。依赖项目已有的 `markdown-it` / `katex` / `jszip` / `playwright` / `sharp`。
+
 ## 这套教材怎么读
 
 > **老谟式提醒**：别急着翻答案。每一章都是一场对话——你是造物主，跟着问题走，走错路再被纠正，最后自己把结论推出来。**推出来的才是你的，记下来的是别人的。**

@@ -34,6 +34,22 @@
 2. **动手优先**：先做「计算训练场」，再对「答案速查页」——不要边算边翻。
 3. **可复写证明**：严格化走廊里的每个证明，试着合上屏幕在白纸上重写一遍。
 
+## 离线下载
+
+每册提供 **PDF**（打印/批注友好）与 **EPUB**（Kindle/手机阅读，公式内嵌字体）两种格式，可在 [站点下载区](https://lwq200.github.io/math-foundation/#下载) 获取；文件也在本仓库 `public/downloads/`。
+
+| 册 | 主题 | PDF / EPUB |
+|---|------|-----------|
+| 册01 | 逻辑与数 | [`downloads/册01-逻辑与数.pdf`](public/downloads/册01-逻辑与数.pdf) · [`EPUB`](public/downloads/册01-逻辑与数.epub) |
+| 册02 | 实数极限与连续 | [`downloads/册02-实数极限与连续.pdf`](public/downloads/册02-实数极限与连续.pdf) · [`EPUB`](public/downloads/册02-实数极限与连续.epub) |
+| 册03 | 单变量微积分 | [`downloads/册03-单变量微积分.pdf`](public/downloads/册03-单变量微积分.pdf) · [`EPUB`](public/downloads/册03-单变量微积分.epub) |
+| 册04 | 线性代数 | [`downloads/册04-线性代数.pdf`](public/downloads/册04-线性代数.pdf) · [`EPUB`](public/downloads/册04-线性代数.epub) |
+| 册05 | 多元微积分与凸优化 | [`downloads/册05-多元微积分与凸优化.pdf`](public/downloads/册05-多元微积分与凸优化.pdf) · [`EPUB`](public/downloads/册05-多元微积分与凸优化.epub) |
+| 册06 | 概率统计与信息 | [`downloads/册06-概率统计与信息.pdf`](public/downloads/册06-概率统计与信息.pdf) · [`EPUB`](public/downloads/册06-概率统计与信息.epub) |
+| 册07 | 图论与可计算性 | [`downloads/册07-图论与可计算性.pdf`](public/downloads/册07-图论与可计算性.pdf) · [`EPUB`](public/downloads/册07-图论与可计算性.epub) |
+
+> 导出脚本：`scripts/export-books.mjs`（`npm run export`），排版回归：`scripts/audit-pdf.mjs`。
+
 ## 本地开发
 
 ```bash
