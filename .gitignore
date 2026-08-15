@@ -7,3 +7,10 @@ node_modules/
 *.out
 .DS_Store
 .codebuddy/
+
+# 审计截图与验证脚本（本地保留，不入库）
+.vitepress/audit/viz-shots/
+.vitepress/audit/dij-shots/
+scripts/interact-viz.mjs
+scripts/shot-all-viz.mjs
+scripts/shot-dijkstra.mjs
