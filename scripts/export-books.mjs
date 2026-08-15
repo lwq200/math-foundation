@@ -454,7 +454,10 @@ async function buildEpub(book, chapters, mmdPngs, outPath) {
   // CSS
   zip.file('OEBPS/css/book.css', BOOK_CSS)
   manifestItems.push(`<item id="css-book" href="css/book.css" media-type="text/css"/>`)
+  // KaTeX CSS 里的字体引用是相对本 CSS 文件（OEBPS/css/）的 url(fonts/X)，
+  // 实际字体放在 OEBPS/fonts/，必须改写为 url(../fonts/X) 否则阅读器找不到字体、公式乱码
   const katexCss = readFileSync(join(root, 'node_modules', 'katex', 'dist', 'katex.min.css'), 'utf8')
+    .replace(/url\(fonts\//g, 'url(../fonts/')
   zip.file('OEBPS/css/katex.min.css', katexCss)
   manifestItems.push(`<item id="css-katex" href="css/katex.min.css" media-type="text/css"/>`)
 
