@@ -47,9 +47,12 @@ function resetAll() {
 function rebuildTrace() {
   if (!board) return
   if (trace) board.removeObject(trace)
-  const pts = path.value.map(([x, y]) => [x, y])
-  if (pts.length >= 2) {
-    trace = board.create('polygonalchain', [pts], {
+  const coords = path.value
+  if (coords.length >= 2) {
+    const xs = coords.map(([x]) => x)
+    const ys = coords.map(([, y]) => y)
+    trace = board.create('curve', [xs, ys], {
+      curveType: 'plot',
       strokeColor: '#c9a227',
       strokeWidth: 2.4,
       fillColor: 'none',

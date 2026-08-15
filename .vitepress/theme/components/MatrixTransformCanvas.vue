@@ -22,13 +22,11 @@ const dVal = ref(1)
 let board: any = null
 let unitCircle: any = null
 let ellipse: any = null
-let sa: any, sb: any, sc: any, sd: any
 let darkObserver: MutationObserver | null = null
 
 function rebuild() {
   if (!board) return
-  const a = sa.Value(), b = sb.Value(), c = sc.Value(), d = sd.Value()
-  aVal.value = a; bVal.value = b; cVal.value = c; dVal.value = d
+  const a = aVal.value, b = bVal.value, c = cVal.value, d = dVal.value
 
   board.removeObject(unitCircle)
   board.removeObject(ellipse)
@@ -51,7 +49,7 @@ function rebuild() {
 }
 
 function setMatrix(a: number, b: number, c: number, d: number) {
-  sa.setValue(a); sb.setValue(b); sc.setValue(c); sd.setValue(d)
+  aVal.value = a; bVal.value = b; cVal.value = c; dVal.value = d
   rebuild()
 }
 
@@ -73,12 +71,6 @@ function buildBoard() {
       border: 'var(--vp-c-divider)',
     },
   })
-
-  sa = board.create('slider', [[-4.2, 4.1], [-0.6, 4.1], [-2, 1, 2]], { name: 'a', snapWidth: 0.1, strokeColor: '#2f6f4f', fillColor: '#42b883' })
-  sb = board.create('slider', [[-4.2, 3.7], [-0.6, 3.7], [-2, 0, 2]], { name: 'b', snapWidth: 0.1, strokeColor: '#2f6f4f', fillColor: '#42b883' })
-  sc = board.create('slider', [[-4.2, 3.3], [-0.6, 3.3], [-2, 0, 2]], { name: 'c', snapWidth: 0.1, strokeColor: '#c9a227', fillColor: '#e0b84c' })
-  sd = board.create('slider', [[-4.2, 2.9], [-0.6, 2.9], [-2, 1, 2]], { name: 'd', snapWidth: 0.1, strokeColor: '#c9a227', fillColor: '#e0b84c' })
-  sa.on('drag', rebuild); sb.on('drag', rebuild); sc.on('drag', rebuild); sd.on('drag', rebuild)
 
   rebuild()
 
@@ -114,6 +106,13 @@ onBeforeUnmount(() => {
       <button class="mt-btn" @click="setMatrix(0.707, -0.707, 0.707, 0.707)">旋转 45°</button>
       <button class="mt-btn" @click="setMatrix(1, 0.8, 0, 1)">剪切</button>
       <span class="mt-matrix">A = [[{{ aVal.toFixed(1) }}, {{ bVal.toFixed(1) }}], [{{ cVal.toFixed(1) }}, {{ dVal.toFixed(1) }}]]</span>
+    </div>
+
+    <div class="mt-sliders">
+      <label>a<input type="range" min="-2" max="2" step="0.1" v-model.number="aVal" @input="rebuild" /></label>
+      <label>b<input type="range" min="-2" max="2" step="0.1" v-model.number="bVal" @input="rebuild" /></label>
+      <label>c<input type="range" min="-2" max="2" step="0.1" v-model.number="cVal" @input="rebuild" /></label>
+      <label>d<input type="range" min="-2" max="2" step="0.1" v-model.number="dVal" @input="rebuild" /></label>
     </div>
 
     <div ref="boardEl" class="mt-board" />
@@ -160,6 +159,24 @@ onBeforeUnmount(() => {
   font-size: 0.88em;
   font-variant-numeric: tabular-nums;
   color: var(--vp-c-text-1);
+}
+.mt-sliders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8em;
+  margin-bottom: 0.6em;
+}
+.mt-sliders label {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.88em;
+  color: var(--vp-c-text-1);
+  min-width: 8em;
+}
+.mt-sliders input[type="range"] {
+  flex: 1;
+  min-width: 5em;
 }
 .mt-board {
   width: 100%;

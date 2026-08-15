@@ -49,7 +49,7 @@ let dist: number[] = []
 let settled: boolean[] = []
 let prev: (number | null)[] = []
 let stepIdx = 0
-let trace: { type: string; u: number; v: number; msg: string }[] = []
+let trace: { type: string; u: number; v: number; msg: string; dist: number[] }[] = []
 
 const CSS_VAR = (v: string, fallback: string) => {
   if (typeof document === 'undefined') return fallback
@@ -73,19 +73,19 @@ function buildTrace(neg: boolean) {
       if (!settled[i] && (u === -1 || dist[i] < dist[u])) u = i
     }
     if (u === -1 || dist[u] === Infinity) break
-    trace.push({ type: 'settle', u, v: -1, msg: `定死 ${VERTICES[u].label}（dist=${dist[u]}）` })
+    trace.push({ type: 'settle', u, v: -1, msg: `定死 ${VERTICES[u].label}（dist=${dist[u]}）`, dist: [...dist] })
     settled[u] = true
     for (const [a, b, w] of edges2) {
       if (a === u && !settled[b] && dist[b] > dist[a] + w) {
         const old = dist[b]
         dist[b] = dist[a] + w
         prev[b] = a
-        trace.push({ type: 'relax', u: a, v: b, msg: `松弛 ${VERTICES[a].label}→${VERTICES[b].label}：${old === Infinity ? '∞' : old} → ${dist[b]}` })
+        trace.push({ type: 'relax', u: a, v: b, msg: `松弛 ${VERTICES[a].label}→${VERTICES[b].label}：${old === Infinity ? '∞' : old} → ${dist[b]}`, dist: [...dist] })
       } else if (b === u && !settled[a] && dist[a] > dist[b] + w) {
         const old = dist[a]
         dist[a] = dist[b] + w
         prev[a] = b
-        trace.push({ type: 'relax', u: b, v: a, msg: `松弛 ${VERTICES[b].label}→${VERTICES[a].label}：${old === Infinity ? '∞' : old} → ${dist[a]}` })
+        trace.push({ type: 'relax', u: b, v: a, msg: `松弛 ${VERTICES[b].label}→${VERTICES[a].label}：${old === Infinity ? '∞' : old} → ${dist[a]}`, dist: [...dist] })
       }
     }
   }
@@ -109,8 +109,8 @@ function stepOnce() {
     })
     stepInfo.value = ev.msg
   }
-  // 显示当前 dist 状态
-  stepInfo.value += ` ｜ 当前 dist：${dist.map((d, i) => `${VERTICES[i].label}=${d === Infinity ? '∞' : d}`).join(' ')}`
+  // 显示该步发生时的 dist 快照
+  stepInfo.value += ` ｜ 当前 dist：${ev.dist.map((d, i) => `${VERTICES[i].label}=${d === Infinity ? '∞' : d}`).join(' ')}`
 }
 
 function resetBoard() {
@@ -179,7 +179,7 @@ function initBoard() {
       fillColor: v.label === 's' ? CSS_VAR('--vp-c-brand-1', '#42b883') : '#ffffff',
       face: 'circle',
       withLabel: true,
-      label: { fontSize: 14, color: cVertex },
+      label: { fontSize: 14, color: v.label === 's' ? '#ffffff' : cVertex },
     })
     p.setAttribute({ fixed: true })
     pts.push(p)

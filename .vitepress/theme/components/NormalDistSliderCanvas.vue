@@ -22,8 +22,6 @@ const fmVal = ref(0)
 
 let board: any = null
 let curve: any = null
-let muSlider: any = null
-let sigmaSlider: any = null
 let xMarker: any = null
 let darkObserver: MutationObserver | null = null
 
@@ -32,8 +30,8 @@ const pdf = (x: number, mu: number, sigma: number) =>
 
 function rebuildCurve() {
   if (!board) return
-  const mu = muSlider.Value()
-  const sigma = sigmaSlider.Value()
+  const mu = muVal.value
+  const sigma = sigmaVal.value
   board.removeObject(curve)
   curve = board.create('functiongraph', [(x: number) => pdf(x, mu, sigma), -8, 8], {
     strokeColor: '#2f6f4f',
@@ -45,8 +43,6 @@ function rebuildCurve() {
     name: 'μ', size: 3, color: '#b3382c', face: 'circle', fixed: true,
   })
   // 读数
-  muVal.value = mu
-  sigmaVal.value = sigma
   peakVal.value = pdf(mu, mu, sigma)
   xmVal.value = mu
   fmVal.value = pdf(mu, mu, sigma)
@@ -70,16 +66,6 @@ function buildBoard() {
       border: 'var(--vp-c-divider)',
     },
   })
-
-  muSlider = board.create('slider', [
-    [-7, 1.3], [-1, 1.3], [-3, 0, 3],
-  ], { name: 'μ', snapWidth: 0.1, strokeColor: '#2f6f4f', fillColor: '#42b883' })
-  muSlider.on('drag', rebuildCurve)
-
-  sigmaSlider = board.create('slider', [
-    [-7, 1.0], [-1, 1.0], [0.3, 1, 2],
-  ], { name: 'σ', snapWidth: 0.05, strokeColor: '#c9a227', fillColor: '#e0b84c' })
-  sigmaSlider.on('drag', rebuildCurve)
 
   rebuildCurve()
 
@@ -114,6 +100,11 @@ onBeforeUnmount(() => {
       <span>σ = {{ sigmaVal.toFixed(2) }}</span>
       <span>峰值 f(μ) = {{ peakVal.toFixed(4) }}</span>
       <span class="nds-area">曲线下面积恒 = 1（PDF 归一化）</span>
+    </div>
+
+    <div class="nds-sliders">
+      <label>μ<input type="range" min="-3" max="3" step="0.1" v-model.number="muVal" @input="rebuildCurve" /></label>
+      <label>σ<input type="range" min="0.3" max="2" step="0.05" v-model.number="sigmaVal" @input="rebuildCurve" /></label>
     </div>
 
     <div ref="boardEl" class="nds-board" />
@@ -151,6 +142,24 @@ onBeforeUnmount(() => {
   margin-left: auto;
   font-weight: 600;
   color: var(--vp-c-brand-1);
+}
+.nds-sliders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-bottom: 0.6em;
+}
+.nds-sliders label {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.88em;
+  color: var(--vp-c-text-1);
+  min-width: 12em;
+}
+.nds-sliders input[type="range"] {
+  flex: 1;
+  min-width: 6em;
 }
 .nds-board {
   width: 100%;
