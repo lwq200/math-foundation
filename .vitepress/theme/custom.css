@@ -348,3 +348,69 @@
 .dark .mermaid svg {
   filter: invert(0.92) hue-rotate(180deg);
 }
+
+/* ============ 右侧「本页目录」（onThisPage）美化 ============ */
+.VPDocAsideOutline {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  padding: 0.7em 0.6em 0.8em;
+  background: var(--vp-c-bg-soft);
+  transition: border-color 0.2s ease;
+}
+.VPDocAsideOutline:hover {
+  border-color: var(--vp-c-brand-3);
+}
+.VPDocAsideOutline .outline-title {
+  margin: 0 0.4em 0.45em;
+  padding-bottom: 0.45em;
+  border-bottom: 1px solid var(--vp-c-divider);
+  font-size: 0.76em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--vp-c-brand-1);
+}
+.VPDocAsideOutline .outline-link {
+  position: relative;
+  display: block;
+  padding: 0.26em 0.55em 0.26em 0.8em;
+  border-radius: 6px;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: var(--vp-c-text-2);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+/* 左侧指示条：hover/激活时浮现 */
+.VPDocAsideOutline .outline-link::before {
+  content: '';
+  position: absolute;
+  left: 0.1em;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 55%;
+  border-radius: 2px;
+  background: var(--vp-c-brand-2);
+  transition: transform 0.2s ease;
+}
+.VPDocAsideOutline .outline-link:hover {
+  color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+}
+.VPDocAsideOutline .outline-link:hover::before,
+.VPDocAsideOutline .outline-link.active::before {
+  transform: translateY(-50%) scaleY(1);
+}
+.VPDocAsideOutline .outline-link.active {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+  background: var(--vp-c-brand-soft);
+}
+/* 二级及以下条目缩进、字号递减 */
+.VPDocAsideOutline .outline .outline .outline-link {
+  padding-left: 1.55em;
+  font-size: 0.8em;
+}
+.VPDocAsideOutline .outline .outline .outline .outline-link {
+  padding-left: 2.3em;
+  font-size: 0.76em;
+}

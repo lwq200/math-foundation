@@ -1,103 +1,121 @@
 <script setup lang="ts">
 /**
- * TangentCanvas —— 切线/割线/差商 实际画布（仅客户端）
+ * TangentCanvas —— 差商趋近导数·割线贴合切线 交互画布（仅客户端）
  *
- * 由 TangentExplorer.vue 通过 defineClientComponent 懒加载。
- * 教学点（分步可暂停、不吞推导）：
- *  - 拖动点 a：切点沿曲线移动，实时显示 f(a) 与切线斜率 f'(a)
- *  - 拖动 h 滑杆：割线（过 (a,f(a)) 与 (a+h,f(a+h))）逐步贴合切线
- *  - 差商读数：实时显示 (f(a+h)-f(a))/h，h→0 时趋近 f'(a)
- *  - 函数切换：x² / x³ / |x|
- *    · x³ 在 a=0 处切线斜率 = 0，直观区分「切线水平 ≠ 导数为零点一定极值」
- *    · |x| 在 a=0 处左右差商符号相反、互为相反数 → 斜率冲突 → 不可导，
- *      呼应「可导 ⇒ 连续，连续 ⇏ 可导」
- *
- * SSR 安全：jsxgraph 只在 onMounted 内动态 import（await import('jsxgraph')），
- * setup/SSR 阶段不访问 document → 构建不炸。本组件自身不会在 SSR 阶段执行
- * onMounted，且 defineClientComponent 也只在浏览器挂载。
- * 用 ref 容器而非固定 id，保证一页多个实例不冲突。
+ * 教学点：差商 (f(a+h)−f(a))/h 在 h→0 时趋近 f'(a)。
+ *  - 拖动切点 a（约束在曲线上），橙色虚线是切线（斜率 f'(a)）
+ *  - 拖动 h（可正可负）让割线端点 Q=(a+h, f(a+h)) 沿曲线滑向切点，割线逐步贴合切线
+ *  - 切到 |x| 并把 a 拖到 0：h>0 右差商 ≈ +1、h<0 左差商 ≈ −1，左右不相等
+ *    → |x| 在 0 处不可导（尽管连续）
  */
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload），避免纯动态 import 被浏览器调度排后
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+// 静态引入 jsxgraph：使其进入页面 chunk 的静态依赖图（构建时自动 modulepreload）
 import JXG from 'jsxgraph'
 
-const boardEl = ref<HTMLDivElement | null>(null)
-
-type FnKey = 'x2' | 'x3' | 'abs'
-
-// 函数与其导数（用于切线/差商数值显示，与 JSXGraph 曲线共用同一数学定义）
-const FNS: Record<FnKey, { name: string; f: (x: number) => number; d: (x: number) => number }> = {
-  x2:  { name: 'x²',  f: (x) => x * x,           d: (x) => 2 * x },
-  x3:  { name: 'x³',  f: (x) => x * x * x,       d: (x) => 3 * x * x },
-  abs: { name: '|x|', f: (x) => Math.abs(x),     d: (x) => (x > 0 ? 1 : x < 0 ? -1 : NaN) },
+const FNS: Record<string, { f: (x: number) => number; d: (x: number) => number; label: string }> = {
+  sq: { f: (x) => x * x, d: (x) => 2 * x, label: 'f(x) = x²' },
+  cb: { f: (x) => x * x * x, d: (x) => 3 * x * x, label: 'f(x) = x³' },
+  abs: { f: (x) => Math.abs(x), d: (x) => (x > 0 ? 1 : x < 0 ? -1 : NaN), label: 'f(x) = |x|' },
 }
 
-const fnKey = ref<FnKey>('x2')
-
-// 读数值（Vue 响应式，供模板显示）
-const diffQ = ref<number>(0)
-const slopeVal = ref<number>(0)
-const aVal = ref<number>(1)
-const hVal = ref<number>(1)
+const boardEl = ref<HTMLDivElement | null>(null)
+const fnKey = ref('sq')
+const hVal = ref(0.5)
+const readout = ref('')
+const sideNote = ref('')
 
 let board: any = null
 let curve: any = null
-let tanLine: any = null
-let secLine: any = null
 let aPt: any = null
-let hSlider: any = null
+let bPt: any = null
+let secSeg: any = null
+let tanLine: any = null
 let darkObserver: MutationObserver | null = null
 
-const fA = (x: number) => FNS[fnKey.value].f(x)
+function fA(x: number) {
+  return FNS[fnKey.value].f(x)
+}
+function dA(x: number) {
+  return FNS[fnKey.value].d(x)
+}
+function fmt(x: number) {
+  if (typeof x !== 'number' || !Number.isFinite(x)) return '—'
+  const s = Math.abs(x) < 1e-9 ? 0 : x
+  return s.toFixed(4).replace(/0+$/, '').replace(/\.$/, '.000')
+}
 
-function fmt(v: number): string {
-  if (!Number.isFinite(v)) return '—'
-  return Number(v.toFixed(4)).toString()
+/** 割线端点 Q=(a+h, f(a+h))：h 变小时沿曲线滑向切点 */
+function placeB(a: number, h: number) {
+  if (!bPt) return
+  const bx = a + h
+  bPt.setPosition(JXG.COORDS_BY_USER, [bx, fA(bx)])
+  bPt.setAttribute({ visible: Math.abs(h) > 1e-9 })
+}
+
+function updateTanLine(a: number) {
+  if (!tanLine) return
+  const slope = dA(a)
+  if (Number.isFinite(slope)) {
+    tanLine.setAttribute({ visible: true })
+    tanLine.setPosition(JXG.COORDS_BY_USER, [
+      [a - 3, fA(a) - 3 * slope],
+      [a + 3, fA(a) + 3 * slope],
+    ])
+  } else {
+    tanLine.setAttribute({ visible: false })
+  }
 }
 
 function updateReadouts(a: number, h: number) {
-  const f = FNS[fnKey.value].f
-  const fa = f(a)
-  const fah = f(a + h)
-  const dq = h !== 0 ? (fah - fa) / h : NaN
-  diffQ.value = Number.isFinite(dq) ? dq : NaN
-  slopeVal.value = FNS[fnKey.value].d(a)
-  aVal.value = a
-  hVal.value = h
+  const dq = h === 0 ? NaN : (fA(a + h) - fA(a)) / h
+  readout.value = `切点 a = ${a.toFixed(2)}，h = ${h >= 0 ? '+' : ''}${h.toFixed(2)}，差商 = ${fmt(dq)}，f′(a) = ${fmt(dA(a))}`
+  // |x| 且切点靠近 0：动态计算左右差商（h=±0.5），左右不相等 → 不可导现场
+  if (fnKey.value === 'abs' && Math.abs(a) < 0.4) {
+    const h0 = 0.5
+    const right = (fA(a + h0) - fA(a)) / h0
+    const left = (fA(a - h0) - fA(a)) / -h0
+    const cur = h === 0 ? 'h=0' : h < 0 ? `左差商 ≈ ${fmt(dq)}` : `右差商 ≈ ${fmt(dq)}`
+    sideNote.value = `|x| 在 a≈0：右差商 ≈ ${fmt(right)}、左差商 ≈ ${fmt(left)}，左右不相等 → 0 处不可导（尽管连续）。当前 ${cur}。`
+  } else {
+    sideNote.value = ''
+  }
 }
 
-// 重建曲线 + 切线 + 割线（函数切换时调用）
+/** 切点 a 变化后：重吸附曲线、跟随点、切线、读出 */
+function syncAfterA(a: number) {
+  const h = hVal.value
+  if (aPt) aPt.setPosition(JXG.COORDS_BY_USER, [a, fA(a)])
+  placeB(a, h)
+  updateTanLine(a)
+  updateReadouts(a, h)
+}
+
 function redrawFunction() {
-  if (!board) return
-  const a = aPt.X()
-  const h = hSlider.Value()
-
-  // 曲线
-  board.removeObject(curve)
-  curve = board.create('functiongraph', [(x: number) => fA(x), -6, 6], {
-    strokeColor: '#42b883',
-    strokeWidth: 3,
+  const a = aPt ? aPt.X() : 1
+  const h = hVal.value
+  if (curve) board.removeObject(curve)
+  curve = board.create('curve', [
+    (t: number) => t,
+    (t: number) => FNS[fnKey.value].f(t),
+    -5, 5,
+  ], {
+    strokeColor: '#42b883', strokeWidth: 3, withLabel: false,
   })
+  if (aPt) aPt.setPosition(JXG.COORDS_BY_USER, [a, fA(a)])
+  placeB(a, h)
+  updateTanLine(a)
+  updateReadouts(a, h)
+}
 
-  // 切线：过 (a, f(a))、斜率为 f'(a)
-  // 注意：JSXGraph 1.13 的 line 不支持 function 父对象（旧版 1.7 可容忍），
-  // 必须用坐标点数组；拖动时下方 setPosition 实时更新，与割线同机制。
-  const slope = FNS[fnKey.value].d(a)
-  board.removeObject(tanLine)
-  if (Number.isFinite(slope)) {
-    tanLine = board.create('line', [
-      [a - 3, fA(a) - 3 * slope],
-      [a + 3, fA(a) + 3 * slope],
-    ], { strokeColor: '#e0663a', strokeWidth: 2, strokeDasharray: [4, 3], fixed: true })
-  }
+function switchFn(fn: string) {
+  fnKey.value = fn
+  redrawFunction()
+}
 
-  // 割线：过 (a, f(a)) 与 (a+h, f(a+h))，随 h 滑杆移动逐步贴合切线
-  board.removeObject(secLine)
-  secLine = board.create('line', [
-    [a, fA(a)],
-    [a + h, fA(a + h)],
-  ], { strokeColor: '#3d8b66', strokeWidth: 2, fixed: true })
-
+function onHChange() {
+  const h = hVal.value
+  const a = aPt ? aPt.X() : 1
+  placeB(a, h)
   updateReadouts(a, h)
 }
 
@@ -109,9 +127,7 @@ function buildBoard() {
     grid: true,
     pan: { needTwoFingers: false },
     zoom: { factorX: 1.4, factorY: 1.4 },
-    // 深色模式：init 时探测 html.dark（VitePress 主题类）
     dark: typeof document !== 'undefined' && document.documentElement.classList.contains('dark'),
-    // 用 CSS 变量取色，保证与站点品牌色、深浅色适配一致
     color: {
       axis: 'var(--vp-c-text-3)',
       grid: 'var(--vp-c-divider)',
@@ -122,89 +138,45 @@ function buildBoard() {
     },
   })
 
-  // 切点 a（可拖动）
+  // 切点 a：可拖动，但约束在曲线上（拖动时 y 被拉回 f(x)）
   aPt = board.create('point', [1, 1], {
-    name: 'a',
-    size: 3,
-    color: '#2f6f4f',
-    face: 'circle',
-    fixed: false,
-    snapSizeX: 0.05,
-    snapSizeY: 0.05,
-    snapToGrid: true,
+    name: 'a', size: 2.2, color: '#2f6f4f', face: 'circle',
+    snapToGrid: true, snapSizeX: 0.05, snapSizeY: 0.05, withLabel: true,
   })
   aPt.on('drag', () => {
-    const a = aPt.X()
-    const h = hSlider.Value()
-    const slope = FNS[fnKey.value].d(a)
-    if (tanLine) {
-      if (Number.isFinite(slope)) {
-        tanLine.setAttribute({ visible: true })
-        tanLine.setPosition(JXG.COORDS_BY_USER, [
-          [a - 3, fA(a) - 3 * slope],
-          [a + 3, fA(a) + 3 * slope],
-        ])
-      } else {
-        tanLine.setAttribute({ visible: false })
-      }
-    }
-    if (secLine) {
-      secLine.setPosition(JXG.COORDS_BY_USER, [
-        [a, fA(a)],
-        [a + h, fA(a + h)],
-      ])
-    }
-    updateReadouts(a, h)
+    const x = aPt.X()
+    const y = fA(x)
+    aPt.setPosition(JXG.COORDS_BY_USER, [x, y])
+    syncAfterA(x)
   })
 
-  // h 滑杆：0.1 ~ 3，步进 0.1
-  hSlider = board.create('slider', [
-    [-4, 6.5],
-    [2, 6.5],
-    [0.1, 1, 3],
-  ], {
-    name: 'h',
-    snapWidth: 0.1,
-    strokeColor: '#2f6f4f',
-    highlightStrokeColor: '#2f6f4f',
-    fillColor: '#42b883',
+  // 割线端点 Q=(a+h, f(a+h))：随 h 沿曲线滑动
+  bPt = board.create('point', [1.5, 2.25], {
+    name: 'Q', size: 2, color: '#3d8b66', face: 'circle', fixed: true, withLabel: true,
   })
-  hSlider.on('drag', () => {
-    const a = aPt.X()
-    const h = hSlider.Value()
-    if (secLine) {
-      secLine.setPosition(JXG.COORDS_BY_USER, [
-        [a, fA(a)],
-        [a + h, fA(a + h)],
-      ])
-    }
-    updateReadouts(a, h)
+
+  // 割线：有限线段，从切点 a 到端点 Q——h 变小 Q 滑向 a，割线贴合切线
+  secSeg = board.create('segment', [aPt, bPt], {
+    strokeColor: '#3d8b66', strokeWidth: 2.5, withLabel: false,
+  })
+
+  // 切线：橙色虚线（无限直线）
+  tanLine = board.create('line', [[1, 1], [2, 3]], {
+    strokeColor: '#e0663a', strokeWidth: 2, strokeDasharray: [6, 4], withLabel: false,
   })
 
   redrawFunction()
 
-  // 深色模式实时跟随
   if (typeof MutationObserver !== 'undefined') {
     darkObserver = new MutationObserver(() => {
       if (!board) return
-      const isDark = document.documentElement.classList.contains('dark')
-      board.setAttribute({ dark: isDark })
+      board.setAttribute({ dark: document.documentElement.classList.contains('dark') })
     })
     darkObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
   }
 }
 
-function switchFn(k: FnKey) {
-  fnKey.value = k
-  redrawFunction()
-}
-
-// 函数切换：重建曲线 + 切线 + 割线 + 读数
-watch(fnKey, () => redrawFunction())
-
-onMounted(() => {
-  buildBoard()
-})
+onMounted(buildBoard)
 
 onBeforeUnmount(() => {
   darkObserver?.disconnect()
@@ -217,38 +189,39 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="tangent-canvas">
+  <div class="tan-canvas">
     <div class="tan-toolbar">
-      <span class="tan-label">函数 f(x)：</span>
       <button
-        v-for="(meta, k) in FNS"
-        :key="k"
-        class="tan-fn-btn"
-        :class="{ active: fnKey === k }"
-        @click="switchFn(k)"
-      >
-        f(x) = {{ meta.name }}
-      </button>
-      <span class="tan-readout-static">
-        切点 a = {{ aVal.toFixed(2) }}，差商 = {{ fmt(diffQ) }}，f'(a) = {{ fmt(slopeVal) }}
-      </span>
+        v-for="(fn, key) in FNS" :key="key"
+        class="tan-btn" :class="{ active: fnKey === key }"
+        @click="switchFn(key)"
+      >{{ fn.label }}</button>
+      <span class="tan-readout">{{ readout }}</span>
     </div>
+
+    <div class="tan-slider">
+      <label for="tan-h">差商步长 h</label>
+      <input id="tan-h" type="range" min="-2" max="2" step="0.05" v-model.number="hVal" @input="onHChange" />
+      <span class="tan-hval">{{ hVal >= 0 ? '+' : '' }}{{ hVal.toFixed(2) }}</span>
+    </div>
+
+    <p v-if="sideNote" class="tan-sidenote">{{ sideNote }}</p>
 
     <div ref="boardEl" class="tan-board" />
 
     <div class="tan-hint">
-      <p><strong>怎么玩（分步、不吞推导）：</strong></p>
+      <p><strong>怎么玩：</strong></p>
       <ol>
-        <li>拖动绿色点 <strong>a</strong> 改变切点位置，橙色虚线是切线（斜率 f'(a)）。</li>
-        <li>拖动 <strong>h</strong> 滑杆让它变小，绿色割线会逐步<b>贴合</b>橙色切线——这就是「差商趋近导数」。</li>
-        <li>切到 <strong>|x|</strong> 并把 a 拖到 0：左边差商 ≈ −1，右边差商 ≈ +1，<b>左右不相等</b>，所以 |x| 在 0 处<b>不可导</b>（尽管它连续）。</li>
+        <li>拖动绿色点 <strong>a</strong> 改变切点位置（它被吸附在曲线上），橙色虚线是切线（斜率 f′(a)）。</li>
+        <li>拖动 <strong>h</strong> 滑杆让它变小（趋近 0），绿色端点 <strong>Q=(a+h, f(a+h))</strong> 会沿曲线滑向切点，绿色割线逐步贴合橙色切线——这就是「差商趋近导数」。h 拖到负值，即从左侧逼近。</li>
+        <li>切到 <strong>|x|</strong> 并把 a 拖到 0：h 在正侧时差商 ≈ <b>+1</b>、负侧时差商 ≈ <b>−1</b>，左右不相等，所以 |x| 在 0 处不可导（尽管它连续）。</li>
       </ol>
     </div>
   </div>
 </template>
 
 <style scoped>
-.tangent-canvas {
+.tan-canvas {
   margin: 1.2em 0;
   border: 1px solid var(--vp-c-divider);
   border-radius: 10px;
@@ -258,37 +231,60 @@ onBeforeUnmount(() => {
 .tan-toolbar {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 0.5em;
+  align-items: center;
   margin-bottom: 0.6em;
 }
-.tan-label {
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-}
-.tan-fn-btn {
-  border: 1px solid var(--vp-c-divider);
+.tan-btn {
+  border: 1px solid var(--vp-c-brand-2);
   border-radius: 6px;
   background: var(--vp-c-bg);
-  color: var(--vp-c-text-1);
-  padding: 0.15em 0.7em;
+  color: var(--vp-c-brand-1);
+  padding: 0.2em 0.9em;
   cursor: pointer;
-  font-size: 0.9em;
+  font-size: 0.88em;
+  transition: background 0.2s ease;
 }
-.tan-fn-btn.active {
-  background: var(--vp-c-brand-1);
-  color: var(--vp-c-bg);
-  border-color: var(--vp-c-brand-1);
-}
-.tan-readout-static {
+.tan-btn:hover { background: var(--vp-c-brand-soft); }
+.tan-btn.active { background: var(--vp-c-brand-1); color: var(--vp-c-bg); border-color: var(--vp-c-brand-1); }
+.tan-readout {
   margin-left: auto;
-  font-size: 0.85em;
-  color: var(--vp-c-text-2);
+  font-size: 0.86em;
   font-variant-numeric: tabular-nums;
+  color: var(--vp-c-text-1);
+  white-space: nowrap;
+}
+.tan-slider {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  margin-bottom: 0.5em;
+  font-size: 0.9em;
+  color: var(--vp-c-text-1);
+}
+.tan-slider input[type="range"] {
+  flex: 1;
+  min-width: 6em;
+}
+.tan-hval {
+  min-width: 3.2em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+}
+.tan-sidenote {
+  margin: 0 0 0.5em;
+  padding: 0.45em 0.7em;
+  border: 1px solid #e0663a;
+  border-radius: 6px;
+  background: color-mix(in srgb, #e0663a 8%, transparent);
+  color: var(--vp-c-text-1);
+  font-size: 0.86em;
+  line-height: 1.5;
 }
 .tan-board {
   width: 100%;
-  height: 380px;
+  height: 400px;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -301,11 +297,9 @@ onBeforeUnmount(() => {
   margin: 0.2em 0 0 1.3em;
   padding: 0;
 }
-.tan-hint li {
-  margin: 0.15em 0;
-}
+.tan-hint li { margin: 0.2em 0; }
 @media (max-width: 640px) {
-  .tan-board { height: 300px; }
-  .tan-readout-static { display: none; }
+  .tan-board { height: 320px; }
+  .tan-readout { margin-left: 0; }
 }
 </style>
