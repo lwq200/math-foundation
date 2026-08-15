@@ -24,6 +24,8 @@ import CDFExplorer from './components/CDFExplorer.vue'
 import MatrixTransform from './components/MatrixTransform.vue'
 import KLDivergence from './components/KLDivergence.vue'
 import CLTSampling from './components/CLTSampling.vue'
+// 册07 图论交互：Dijkstra 最短路径逐步演示（册07 第03章，图论册首块交互）
+import DijkstraExplorer from './components/DijkstraExplorer.vue'
 
 /**
  * 对话体段落分类：正文中对话段为 <p><strong>老谟/造物主</strong>："…"</p>。
@@ -60,6 +62,7 @@ const theme: Theme = {
     app.component('MatrixTransform', MatrixTransform)
     app.component('KLDivergence', KLDivergence)
     app.component('CLTSampling', CLTSampling)
+    app.component('DijkstraExplorer', DijkstraExplorer)
     // 每次路由切换后（含首屏）重新分类，保证 SSR 直出的页面也有样式
     router.onAfterRouteChanged = () => {
       if (typeof requestAnimationFrame !== 'undefined') {
