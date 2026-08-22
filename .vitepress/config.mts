@@ -172,6 +172,18 @@ export default defineConfig(withMermaid({
   head: [
     ['meta', { name: 'keywords', content: '数学,教材,微积分,线性代数,概率论,信息论,苏格拉底,对话体,自学' }],
     ['meta', { name: 'theme-color', content: '#42b883' }],
+    // 社交分享卡片（Open Graph / Twitter）。og:image 暂用 logo.svg；
+    // 站内暂无 1200×630 专用分享图，如需可后续生成补上（多数平台对
+    // SVG 缩略图支持有限，建议后续换成 PNG）。
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: '数学基础系列' }],
+    ['meta', { property: 'og:title', content: '数学基础 · 创世游戏系列丛书基础卷' }],
+    ['meta', { property: 'og:description', content: '《数学基础》· 创世游戏系列丛书基础卷：7 册苏格拉底对话体自学教材，从零推导、可复写证明、计算训练场 —— 造物主与老谟一问一答' }],
+    ['meta', { property: 'og:url', content: 'https://lwq200.github.io/math-foundation/' }],
+    ['meta', { property: 'og:image', content: 'https://lwq200.github.io/math-foundation/logo.svg' }],
+    ['meta', { name: 'twitter:card', content: 'summary' }],
+    ['meta', { name: 'twitter:title', content: '数学基础 · 创世游戏系列丛书基础卷' }],
+    ['meta', { name: 'twitter:description', content: '7 册苏格拉底对话体自学教材，从零推导、可复写证明、计算训练场' }],
     // favicon：指向 public/logo.svg。注意：head 里的 link 不参与 VitePress 的
     // withBase 自动加前缀（与 hero image/actions 不同，实测线上 /logo.svg 404），
     // 必须显式写带 base 的绝对路径，消除 /favicon.ico 404。

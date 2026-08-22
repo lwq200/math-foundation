@@ -414,3 +414,148 @@
   padding-left: 2.3em;
   font-size: 0.76em;
 }
+
+/* ============ 首页（Home Layout）视觉升级 ============
+   仅作用于首页，用 .VPHome 前缀隔离，不污染正文 vp-doc。
+   铁律：不引外部 url()（规避 base 前缀/资源 404），装饰一律纯渐变 + mask；
+   所有颜色均留 .dark 兜底，保证深色模式对比度 ≥ AA。 */
+
+/* ---- Hero：学术绿柔性光晕 + 几何点阵（纯 CSS，SSR 安全）---- */
+.VPHero {
+  position: relative;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(47, 111, 79, 0.10), transparent 42%),
+    radial-gradient(circle at 85% 15%, rgba(66, 184, 131, 0.12), transparent 45%),
+    radial-gradient(circle at 70% 85%, rgba(47, 111, 79, 0.06), transparent 38%);
+}
+.dark .VPHero {
+  background:
+    radial-gradient(circle at 15% 25%, rgba(95, 208, 160, 0.10), transparent 42%),
+    radial-gradient(circle at 85% 15%, rgba(66, 184, 131, 0.12), transparent 45%),
+    radial-gradient(circle at 70% 85%, rgba(95, 208, 160, 0.06), transparent 38%);
+}
+/* 顶部点阵网格：向下渐隐，仅在上部可见，微妙不喧宾夺主 */
+.VPHero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(47, 111, 79, 0.14) 1px, transparent 1px);
+  background-size: 20px 20px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 15%, transparent 72%);
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 15%, transparent 72%);
+  pointer-events: none;
+}
+.dark .VPHero::before {
+  background-image: radial-gradient(rgba(95, 208, 160, 0.12) 1px, transparent 1px);
+}
+
+/* Hero 主标题 name：统一渐变（含实体兜底），与既有 .text 同源 */
+.VPHero .name {
+  color: var(--vp-c-brand-1);
+}
+.VPHero .name {
+  background: linear-gradient(120deg, #2f6f4f, #1f5a3e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .VPHero .name {
+    -webkit-text-fill-color: currentColor;
+    background: none;
+  }
+}
+.dark .VPHero .name {
+  color: #7ec9a0;
+}
+.dark .VPHero .name {
+  background: linear-gradient(120deg, #7ec9a0, #c9a227);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .dark .VPHero .name {
+    -webkit-text-fill-color: currentColor;
+    background: none;
+  }
+}
+
+/* Hero logo 微光晕 + 悬停轻微上浮（动效 SSG 安全，仅交互层） */
+.VPHero .image-container img {
+  filter: drop-shadow(0 12px 30px rgba(47, 111, 79, 0.18));
+  transition: transform 0.25s ease;
+}
+.VPHero:hover .image-container img {
+  transform: translateY(-4px);
+}
+
+/* tagline 层级：与 name/text 拉开，弱化为文字色 */
+.VPHero .tagline {
+  color: var(--vp-c-text-2);
+}
+
+/* ---- Feature 卡片：玻璃拟态 + 图标渐变徽章 ---- */
+.VPHome .VPFeatures .VPFeature {
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.VPHome .VPFeatures .VPFeature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  border-color: var(--vp-c-brand-3);
+}
+.dark .VPHome .VPFeatures .VPFeature:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+.VPHome .VPFeatures .VPFeature .icon {
+  background: linear-gradient(135deg, rgba(47, 111, 79, 0.14), rgba(66, 184, 131, 0.10));
+  border: 1px solid rgba(47, 111, 79, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.dark .VPHome .VPFeatures .VPFeature .icon {
+  background: linear-gradient(135deg, rgba(95, 208, 160, 0.16), rgba(66, 184, 131, 0.10));
+  border-color: rgba(95, 208, 160, 0.22);
+}
+
+/* ---- 首页正文区（我该从哪开始 / 丛书总览 / 怎么读）----
+   标题加左侧色条，段落节奏拉开。仅作用于页首页首 .VPHomeContent 下的 .vp-doc */
+.VPHome .vp-doc > h2 {
+  position: relative;
+  padding-left: 0.85em;
+  font-size: 1.7rem;
+  margin-top: 2.6em;
+}
+.VPHome .vp-doc > h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.28em;
+  width: 0.42em;
+  height: 1.05em;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--vp-c-brand-2), var(--vp-c-brand-1));
+}
+/* 首页表格：collapse 下 border-radius 无效，故只加描边 + 柔和投影，避免圆角瑕疵 */
+.VPHome .vp-doc > table {
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+}
+.dark .VPHome .vp-doc > table {
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.28);
+}
+.VPHome .vp-doc th {
+  background: linear-gradient(135deg, rgba(47, 111, 79, 0.16), rgba(66, 184, 131, 0.10));
+}
+.dark .VPHome .vp-doc th {
+  background: linear-gradient(135deg, rgba(95, 208, 160, 0.16), rgba(66, 184, 131, 0.10));
+}
+.VPHome .vp-doc tbody tr {
+  transition: background-color 0.15s ease;
+}
+.VPHome .vp-doc tbody tr:hover {
+  background: var(--vp-c-brand-soft);
+}
